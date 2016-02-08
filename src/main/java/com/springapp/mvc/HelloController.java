@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.ServletContext;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -39,32 +40,37 @@ public class HelloController {
 						  @RequestParam(value = "size", defaultValue = "10") int size) throws Exception {
 		List<Map<String, Object>> boradList;
 		List<Map<String, Object>> mallRepuList;
-		List<Board> productMainDataList = new ArrayList<Board>();
+		List<Board> boardList = new ArrayList<Board>();
 
-		List<Board> boardList = boardMapper.selectBoardFromTo(from, size);
-//		Iterator iter = mainDataAll.iterator();
-//		while (iter.hasNext()) {
-//			Board board = new Board();
-//			board.setTitle((String)entry.get("title"));
-//			board.setWriter((String) entry.get("writer"));
-//			board.setUrl((String) entry.get("url"));
-//			board.setCpName((String) entry.get("cp_name"));
-//			board.setImageUrl((String) entry.get("image_url"));
-//			board.setImageCount(Integer.parseInt((String)entry.get("image_count")));
-//			board.setVideoCount(Integer.parseInt((String) entry.get("video_count")));
-//			board.setThumbUrl((String) entry.get("thumb_url"));
-//			board.setThumbUrl((String) entry.get("thumb_url"));
-//			board.setDateTime((String) entry.get("date"));
-//			board.setViewCount(Integer.parseInt((String) entry.get("date")));
-//			board.setSuggestCount(Integer.parseInt((String) entry.get("suggest_count")));
-//			board.setReplyCount(Integer.parseInt((String) entry.get("reply_count")));
-//
-//			productMainDataList.add(board);
-//
-//			logger.info(board.getTitle());
-//			logger.info(board.getUrl());
-//			logger.info("==========================================");
-//		}
+		List<Board> boardSelect = boardMapper.selectBoardFromTo(from, size);
+		Iterator iter = boardSelect.iterator();
+		while (iter.hasNext()) {
+			Board board = new Board();
+			Board boardTemp = (Board)iter.next();
+
+			board.setTitle(boardTemp.getTitle());
+			board.setWriter(boardTemp.getWriter());
+			board.setUrl(boardTemp.getUrl());
+			board.setCpName(boardTemp.getCpName());
+			board.setImageUrl(boardTemp.getImageUrl());
+			board.setImageCount(boardTemp.getImageCount());
+			board.setVideoCount(boardTemp.getVideoCount());
+			board.setThumbUrl(boardTemp.getThumbUrl());
+			if (board.getImageUrl().length()>0) {
+				board.setIsThumbnail("Y");
+			}
+			board.setDateTime(boardTemp.getDateTime().substring(4,7));
+			board.setViewCount(boardTemp.getViewCount());
+			board.setSuggestCount(boardTemp.getSuggestCount());
+			board.setReplyCount(boardTemp.getReplyCount());
+
+			boardList.add(board);
+
+			logger.info(board.getTitle());
+			logger.info(board.getUrl());
+			logger.info(board.getDateTime());
+			logger.info("==========================================");
+		}
 
 		/**
 		 * page 계산

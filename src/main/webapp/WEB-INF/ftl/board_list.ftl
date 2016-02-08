@@ -188,7 +188,11 @@
         <tbody>
     <#list boardList as product>
         <tr>
-            <td><img src="${product.getImageUrl()}" class="img-rounded" alt="Cinque Terre" width="50" height="50"></td>
+            <#if product.getIsThumbnail() == "Y">
+                <td><img src="${product.getImageUrl()}" class="img-rounded" alt="Cinque Terre" width="50" height="50"></td>
+            <#else>
+                <td></td>
+            </#if>
             <#--<td>${product.getCpName()}</td>-->
             <td>
                 <a href="${product.getUrl()}" target="_blank">${product.getTitle()}</a>&nbsp;<span class="badge">${product.getReplyCount()}</span><br>

@@ -17,6 +17,7 @@ public class Board {
     private int viewCount=0;
     private int suggestCount=0;
     private int replyCount=0;
+    private String isThumbnail="N";
 
     public int getId() {
         return id;
@@ -120,5 +121,13 @@ public class Board {
 
     public void setReplyCount(int replyCount) {
         this.replyCount = replyCount;
+    }
+
+    public String getIsThumbnail() {
+        return isThumbnail;
+    }
+
+    public void setIsThumbnail(String isThumbnail) {
+        this.isThumbnail = isThumbnail;
     }
 }
