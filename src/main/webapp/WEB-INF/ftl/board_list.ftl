@@ -201,9 +201,9 @@
 
     <ul class="pager">
         <#if from gt 0>
-        <li><a href="http://localhost:8080/boardwang/list?from=${prevFrom}&size=${size}">Previous</a></li>
+        <li><a href="./list?from=${prevFrom}&size=${size}">Previous</a></li>
         </#if>
-        <li><a href="http://localhost:8080/boardwang/list?from=${nextFrom}&size=${size}">Next</a></li>
+        <li><a href="./list?from=${nextFrom}&size=${size}">Next</a></li>
     </ul>
 
 </div> <!-- ccontainer -->
