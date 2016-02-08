@@ -181,8 +181,8 @@
             <#--<th>사이트</th>-->
             <th>제목</th>
             <th>날짜</th>
-            <th>조회수</th>
-            <th>추천수</th>
+            <#--<th>조회수</th>-->
+            <#--<th>추천수</th>-->
         </tr>
         </thead>
         <tbody>
@@ -190,10 +190,13 @@
         <tr>
             <td><img src="${product.getImageUrl()}" class="img-rounded" alt="Cinque Terre" width="50" height="50"></td>
             <#--<td>${product.getCpName()}</td>-->
-            <td><a href="${product.getUrl()}" target="_blank">${product.getTitle()}</a>&nbsp;<span class="badge">${product.getReplyCount()}</span></td>
+            <td>
+                <a href="${product.getUrl()}" target="_blank">${product.getTitle()}</a>&nbsp;<span class="badge">${product.getReplyCount()}</span><br>
+                조회수&nbsp;<span class="badge">${product.getViewCount()}</span>,&nbsp;&nbsp;추천수 &nbsp;<span class="badge">${product.getSuggestCount()}</span>
+            </td>
             <td>${product.getDateTime()}</td>
-            <td>${product.getViewCount()}</td>
-            <td>${product.getSuggestCount()}</td>
+            <#--<td>${product.getViewCount()}</td>-->
+            <#--<td>${product.getSuggestCount()}</td>-->
         </tr>
     </#list>
         </tbody>
