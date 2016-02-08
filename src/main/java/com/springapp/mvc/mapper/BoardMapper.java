@@ -28,7 +28,7 @@ public interface BoardMapper {
     })
     List<Board> selectAllBoard();
 
-    @Select("SELECT id, title, writer, url, thumb_url, image_url, cp_name, date, view_count, suggest_count, reply_count FROM board order by date desc limit #{from}, #{size}")
+    @Select("SELECT id, title, writer, url, thumb_url, image_url, cp_name, right(date,4) as date, view_count, suggest_count, reply_count FROM board order by date desc limit #{from}, #{size}")
     @Results(value = {
             @Result(property = "id",           column = "id"),
             @Result(property = "title",        column = "title"),
