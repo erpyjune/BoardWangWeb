@@ -31,7 +31,7 @@ public interface BoardMapper {
 
     @Select("SELECT id, title, writer, url, thumb_url, image_url, cp_name, cp_name_display, date, view_count, suggest_count, reply_count " +
             "FROM board " +
-            "WHERE cp_name_display = #{cp} order by date desc, ts desc limit #{from}, #{size}")
+            "WHERE cp_name_display = #{cp} order by date desc limit #{from}, #{size}")
     @Results(value = {
             @Result(property = "id",           column = "id"),
             @Result(property = "title",        column = "title"),
@@ -51,7 +51,7 @@ public interface BoardMapper {
     List<Board> selectCpNameBoardFromTo(@Param("cp") String cp, @Param("from") int from, @Param("size") int size);
 
     @Select("SELECT id, title, writer, url, thumb_url, image_url, cp_name, cp_name_display, date, view_count, suggest_count, reply_count " +
-            "FROM board order by date desc, ts desc limit #{from}, #{size}")
+            "FROM board order by date desc limit #{from}, #{size}")
     @Results(value = {
             @Result(property = "id",           column = "id"),
             @Result(property = "title",        column = "title"),
