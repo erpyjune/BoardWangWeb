@@ -180,7 +180,7 @@
             <th>이미지</th>
             <#--<th>사이트</th>-->
             <th>제목</th>
-            <#--<th>날짜</th>-->
+            <th>날짜</th>
             <#--<th>조회수</th>-->
             <#--<th>추천수</th>-->
         </tr>
@@ -195,13 +195,10 @@
             </#if>
             <#--<td>${product.getCpName()}</td>-->
             <td>
-                <a href="${product.getUrl()}" class="list-group-item" target="_blank">
-                    <p class="text-primary">${product.getTitle()}&nbsp;<span class="badge">${product.getReplyCount()}</span></p>
-                    <small>조회수&nbsp;${product.getViewCount()},&nbsp;&nbsp;추천수 &nbsp;${product.getSuggestCount()},
-                    &nbsp;&nbsp;${product.getDateTime()}</small>
-                </a>
+                <a href="${product.getUrl()}" target="_blank">${product.getTitle()}</a>&nbsp;<span class="badge">${product.getReplyCount()}</span><br>
+                <small>조회수&nbsp;${product.getViewCount()}</small>,&nbsp;&nbsp;추천수 &nbsp;<small>${product.getSuggestCount()}</small>
             </td>
-            <#--<td>${product.getDateTime()}</td>-->
+            <td>${product.getDateTime()}</td>
             <#--<td>${product.getViewCount()}</td>-->
             <#--<td>${product.getSuggestCount()}</td>-->
         </tr>
