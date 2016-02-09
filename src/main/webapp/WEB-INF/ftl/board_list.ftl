@@ -195,11 +195,9 @@
             </#if>
             <#--<td>${product.getCpName()}</td>-->
             <td>
-                <a href="${product.getUrl()}" class="list-group-item" target="_blank">
-                    <p class="text-primary">${product.getTitle()}&nbsp;<span class="badge">${product.getReplyCount()}</span></p>
-                    <small>조회수&nbsp;${product.getViewCount()},&nbsp;&nbsp;추천수 &nbsp;${product.getSuggestCount()},
+                <a href="${product.getUrl()}" target="_blank">${product.getTitle()}&nbsp;</a><span class="badge">${product.getReplyCount()}</span><br>
+                <small><mark>${product.getCpNameDisplay()}</mark>,&nbsp;조회수&nbsp;${product.getViewCount()},&nbsp;&nbsp;추천수 &nbsp;${product.getSuggestCount()},
                     &nbsp;&nbsp;${product.getDateTime()}</small>
-                </a>
             </td>
             <#--<td>${product.getDateTime()}</td>-->
             <#--<td>${product.getViewCount()}</td>-->

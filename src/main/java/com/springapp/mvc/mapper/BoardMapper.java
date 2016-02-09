@@ -10,7 +10,7 @@ import java.util.Map;
  * Created by oj.bae on 2016. 2. 7..
  */
 public interface BoardMapper {
-    @Select("SELECT id, title, writer, url, thumb_url, image_url, cp_name, date, view_count, suggest_count, reply_count FROM board")
+    @Select("SELECT id, title, writer, url, thumb_url, image_url, cp_name, cp_name_display, date, view_count, suggest_count, reply_count FROM board")
     @Results(value = {
             @Result(property = "id",           column = "id"),
             @Result(property = "title",        column = "title"),
@@ -19,6 +19,7 @@ public interface BoardMapper {
             @Result(property = "thumbUrl",     column = "thumb_url"),
             @Result(property = "imageUrl",     column = "image_url"),
             @Result(property = "cpName",       column = "cp_name"),
+            @Result(property = "cpNameDisplay",column = "cp_name_display"),
             @Result(property = "dateTime",     column = "date"),
             @Result(property = "viewCount",    column = "view_count"),
             @Result(property = "suggestCount", column = "suggest_count"),
@@ -28,7 +29,7 @@ public interface BoardMapper {
     })
     List<Board> selectAllBoard();
 
-    @Select("SELECT id, title, writer, url, thumb_url, image_url, cp_name, date, view_count, suggest_count, reply_count FROM board order by date desc limit #{from}, #{size}")
+    @Select("SELECT id, title, writer, url, thumb_url, image_url, cp_name, cp_name_display, date, view_count, suggest_count, reply_count FROM board order by date desc limit #{from}, #{size}")
     @Results(value = {
             @Result(property = "id",           column = "id"),
             @Result(property = "title",        column = "title"),
@@ -37,6 +38,7 @@ public interface BoardMapper {
             @Result(property = "thumbUrl",     column = "thumb_url"),
             @Result(property = "imageUrl",     column = "image_url"),
             @Result(property = "cpName",       column = "cp_name"),
+            @Result(property = "cpNameDisplay",column = "cp_name_display"),
             @Result(property = "dateTime",     column = "date"),
             @Result(property = "viewCount",    column = "view_count"),
             @Result(property = "suggestCount", column = "suggest_count"),
@@ -46,7 +48,7 @@ public interface BoardMapper {
     })
     List<Board> selectBoardFromTo(@Param("from") int from, @Param("size") int size);
 
-    @Select("SELECT id, title, writer, url, thumb_url, image_url, cp_name, date, view_count, suggest_count, reply_count FROM board WHERE id=#{id}")
+    @Select("SELECT id, title, writer, url, thumb_url, image_url, cp_name, cp_name_display, date, view_count, suggest_count, reply_count FROM board WHERE id=#{id}")
     @Results(value = {
             @Result(property = "id",           column = "id"),
             @Result(property = "title",        column = "title"),
@@ -55,6 +57,7 @@ public interface BoardMapper {
             @Result(property = "thumbUrl",     column = "thumb_url"),
             @Result(property = "imageUrl",     column = "image_url"),
             @Result(property = "cpName",       column = "cp_name"),
+            @Result(property = "cpNameDisplay",column = "cp_name_display"),
             @Result(property = "dateTime",     column = "date"),
             @Result(property = "viewCount",    column = "view_count"),
             @Result(property = "suggestCount", column = "suggest_count"),
@@ -64,7 +67,7 @@ public interface BoardMapper {
     })
     Board selectBoardId(@Param("id") int id);
 
-    @Select("SELECT title, writer, url, thumb_url, image_url, cp_name, date, view_count, suggest_count, reply_count FROM board WHERE url=#{url}")
+    @Select("SELECT title, writer, url, thumb_url, image_url, cp_name, cp_name_display, date, view_count, suggest_count, reply_count FROM board WHERE url=#{url}")
     @Results(value = {
             @Result(property = "title",        column = "title"),
             @Result(property = "writer",       column = "writer"),
@@ -72,6 +75,7 @@ public interface BoardMapper {
             @Result(property = "thumbUrl",     column = "thumb_url"),
             @Result(property = "imageUrl",     column = "image_url"),
             @Result(property = "cpName",       column = "cp_name"),
+            @Result(property = "cpNameDisplay",column = "cp_name_display"),
             @Result(property = "dateTime",     column = "date"),
             @Result(property = "viewCount",    column = "view_count"),
             @Result(property = "suggestCount", column = "suggest_count"),

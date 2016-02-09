@@ -12,6 +12,7 @@ public class Board {
     private String imageUrl="";
     private String dateTime=""; // YYYYmmDD
     private String cpName="";
+    private String cpNameDisplay="";
     private int imageCount=0;
     private int videoCount=0;
     private int viewCount=0;
@@ -81,6 +82,14 @@ public class Board {
 
     public void setCpName(String cpName) {
         this.cpName = cpName;
+    }
+
+    public String getCpNameDisplay() {
+        return cpNameDisplay;
+    }
+
+    public void setCpNameDisplay(String cpNameDisplay) {
+        this.cpNameDisplay = cpNameDisplay;
     }
 
     public int getImageCount() {

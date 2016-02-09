@@ -52,6 +52,7 @@ public class HelloController {
 			board.setWriter(boardTemp.getWriter());
 			board.setUrl(boardTemp.getUrl());
 			board.setCpName(boardTemp.getCpName());
+			board.setCpNameDisplay(boardTemp.getCpNameDisplay());
 			board.setImageUrl(boardTemp.getImageUrl());
 			board.setImageCount(boardTemp.getImageCount());
 			board.setVideoCount(boardTemp.getVideoCount());
