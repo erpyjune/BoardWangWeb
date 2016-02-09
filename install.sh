@@ -7,4 +7,4 @@ rm -rf /home/erpy/tomcat/webapps/BoardWangWeb
 rm -rf /home/erpy/tomcat/webapps/BoardWangWeb.war
 cp -f /home/erpy/BoardWangWeb/source/BoardWangWeb/target/BoardWangWeb.war /home/erpy/tomcat/webapps
 cd /home/erpy/tomcat/bin
-/bin/sh start.sh
+/bin/sh startup.sh
