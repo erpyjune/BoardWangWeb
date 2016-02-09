@@ -177,7 +177,54 @@
             <type>jar</type>
             <scope>compile</scope>
         </dependency>
+        <!-- erpyjune -->
+        <dependency>
+            <groupId>com.erpyjune</groupId>
+            <artifactId>utils</artifactId>
+            <version>0.2.19</version>
+        </dependency>
     </dependencies>
+
+    <repositories>
+        <!--<repository>-->
+        <!--<id>daum-search1-group</id>-->
+        <!--<url>http://maven.daumcorp.com/content/groups/daum-search1-group</url>-->
+        <!--<releases>-->
+        <!--<updatePolicy>always</updatePolicy>-->
+        <!--</releases>-->
+        <!--<snapshots>-->
+        <!--<updatePolicy>always</updatePolicy>-->
+        <!--</snapshots>-->
+        <!--</repository>-->
+
+        <repository>
+            <id>central</id>
+            <url>http://kiwitomato.com:8081/nexus/content/groups/public/</url>
+            <releases><enabled>true</enabled></releases>
+            <snapshots><enabled>true</enabled></snapshots>
+        </repository>
+
+    </repositories>
+
+    <pluginRepositories>
+        <!--<pluginRepository>-->
+        <!--<id>daum-search1-group</id>-->
+        <!--<url>http://maven.daumcorp.com/content/groups/daum-search1-group</url>-->
+        <!--<releases>-->
+        <!--<updatePolicy>always</updatePolicy>-->
+        <!--</releases>-->
+        <!--<snapshots>-->
+        <!--<updatePolicy>always</updatePolicy>-->
+        <!--</snapshots>-->
+        <!--</pluginRepository>-->
+
+        <pluginRepository>
+            <id>central</id>
+            <url>http://kiwitomato.com:8081/nexus/content/groups/public/</url>
+            <releases><enabled>true</enabled></releases>
+            <snapshots><enabled>true</enabled></snapshots>
+        </pluginRepository>
+    </pluginRepositories>
 
     <build>
         <finalName>BoardWangWeb</finalName>

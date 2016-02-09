@@ -1,5 +1,6 @@
 package com.springapp.mvc;
 
+import com.erpyjune.StdUtils;
 import com.springapp.mvc.data.Board;
 import com.springapp.mvc.mapper.BoardMapper;
 import org.slf4j.Logger;
@@ -14,10 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import javax.servlet.ServletContext;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Controller
 @RequestMapping("/")
@@ -30,17 +28,118 @@ public class HelloController {
 	private @Autowired
 	ServletContext servletContext;
 
+	/**
+	 *
+	 * @param model
+	 * @return
+	 */
 	@RequestMapping(method = RequestMethod.GET)
 	public String printWelcome(ModelMap model) {
 		model.addAttribute("message", "Hello world!");
 		return "hello";
 	}
 
+	/**
+	 *
+	 * @param opt
+	 * @return
+	 * @throws Exception
+	 */
+	public Map<String, String> getDateTimeOption(String opt) throws Exception {
+		StdUtils stdUtils = new StdUtils();
+		String currDateTime="";
+		String beforeDateTime="";
+		Map<String, String> map = new HashMap<String, String>();
+
+		if ("1hour".equals(opt)) {
+			currDateTime = stdUtils.getCurrDateTimeString().substring(0,12);
+			beforeDateTime = stdUtils.getHourBeforeAfterString(-1).substring(0,12);
+		} else if ("3hour".equals(opt)) {
+			currDateTime = stdUtils.getCurrDateTimeString().substring(0,12);
+			beforeDateTime = stdUtils.getHourBeforeAfterString(-3).substring(0,12);
+		} else if ("6hour".equals(opt)) {
+			currDateTime = stdUtils.getCurrDateTimeString().substring(0,12);
+			beforeDateTime = stdUtils.getHourBeforeAfterString(-6).substring(0,12);
+		} else if ("12hour".equals(opt)) {
+			currDateTime = stdUtils.getCurrDateTimeString().substring(0,12);
+			beforeDateTime = stdUtils.getHourBeforeAfterString(-12).substring(0,12);
+		} else if ("24hour".equals(opt)) {
+			currDateTime = stdUtils.getCurrDateTimeString().substring(0,12);
+			beforeDateTime = stdUtils.getHourBeforeAfterString(-24).substring(0,12);
+		} else if ("30min".equals(opt)) {
+			currDateTime = stdUtils.getCurrDateTimeString().substring(0,12);
+			beforeDateTime = stdUtils.getMinutesBeforeAfterString(-30).substring(0,12);
+		} else {
+			currDateTime = "";
+			beforeDateTime = "";
+		}
+
+		logger.info(" start date [" + beforeDateTime + "]");
+		logger.info(" end   date [" + currDateTime + "]");
+
+		map.put("start", beforeDateTime);
+		map.put("end", currDateTime);
+
+		return map;
+	}
+
+
+	public List<Board> selectService(String cpName, String dateOpt, String sortField, int from, int size) throws Exception {
+		String startDate="", endDate="";
+		List<Board> boardList=null;
+		Map<String, String> dateMap=null;
+
+		if (dateOpt.trim().length()>0) {
+			dateMap = getDateTimeOption(dateOpt);
+			startDate = dateMap.get("start");
+			endDate = dateMap.get("end");
+
+			if (startDate.length()==0 || endDate.length()==0) {
+				dateOpt="";
+			}
+		}
+
+		if (cpName.length()==0) {
+			if ("reply".equals(sortField) && dateOpt.length()>0) {
+				boardList = boardMapper.selectDateBetweenReplyCountBoard(startDate, endDate, from, size);
+				logger.info(" sort : reply");
+			} else if ("view".equals(sortField) && dateOpt.length()>0){
+				boardList = boardMapper.selectDateBetweenViewCountBoard(startDate, endDate, from, size);
+				logger.info(" sort : view");
+			} else if ("suggest".equals(sortField) && dateOpt.length()>0){
+				boardList = boardMapper.selectDateBetweenSuggestCountBoard(startDate, endDate, from, size);
+				logger.info(" sort : suggest");
+			} else {
+				boardList = boardMapper.selectBoardFromTo(from, size);
+				logger.info(" sort : not");
+			}
+		} else {
+			String decodeCpName = URLDecoder.decode(cpName, "utf-8");
+			boardList = boardMapper.selectCpNameBoardFromTo(decodeCpName, from, size);
+			logger.info(" cp [" + decodeCpName + "]");
+		}
+
+		return boardList;
+	}
+
+	/**
+	 *
+	 * @param model
+	 * @param from
+	 * @param size
+	 * @param cpName
+	 * @param dateOpt
+	 * @return
+	 * @throws Exception
+	 */
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
 	public String getMain(ModelMap model,
 						  @RequestParam(value = "from",  defaultValue = "0") int from,
 						  @RequestParam(value = "size",  defaultValue = "15") int size,
-						  @RequestParam(value = "cp",    defaultValue = "") String cpName) throws Exception {
+						  @RequestParam(value = "cp",    defaultValue = "") String cpName,
+						  @RequestParam(value = "date_opt",    defaultValue = "") String dateOpt,
+						  @RequestParam(value = "sort",    defaultValue = "") String sortField) throws Exception {
+
 		List<Map<String, Object>> boradList;
 		List<Map<String, Object>> mallRepuList;
 		List<Board> boardList = new ArrayList<Board>();
@@ -49,16 +148,10 @@ public class HelloController {
 		List<Board> boardSelect=null;
 
 
-		if (cpName.length()==0) {
-			boardSelect = boardMapper.selectBoardFromTo(from, size);
-		} else {
-			String s = URLDecoder.decode(cpName, "utf-8");
-//			cp = new String(s.getBytes("ISO-8859-1"),"UTF-8");
-			cp = s;
-			boardSelect = boardMapper.selectCpNameBoardFromTo(cp, from, size);
-			logger.info(" cp [" + cp + "]");
-		}
-
+		/**
+		 * select SQL
+		 */
+		boardSelect = selectService(cpName,dateOpt,sortField,from, size);
 		Iterator iter = boardSelect.iterator();
 		while (iter.hasNext()) {
 			Board board = new Board();

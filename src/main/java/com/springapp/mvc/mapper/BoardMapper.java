@@ -10,6 +10,7 @@ import java.util.Map;
  * Created by oj.bae on 2016. 2. 7..
  */
 public interface BoardMapper {
+
     @Select("SELECT id, title, writer, url, thumb_url, image_url, cp_name, cp_name_display, date, view_count, suggest_count, reply_count FROM board")
     @Results(value = {
             @Result(property = "id",           column = "id"),
@@ -28,6 +29,85 @@ public interface BoardMapper {
             @Result(property = "replyCount",   column = "reply_count")
     })
     List<Board> selectAllBoard();
+
+
+    @Select("SELECT id, title, writer, url, thumb_url, image_url, cp_name, cp_name_display, date, view_count, suggest_count, reply_count FROM board" +
+            " WHERE date BETWEEN #{startDate} AND #{endDate} order by reply_count desc limit #{from}, #{size}")
+    @Results(value = {
+            @Result(property = "id",           column = "id"),
+            @Result(property = "title",        column = "title"),
+            @Result(property = "writer",       column = "writer"),
+            @Result(property = "url",          column = "url"),
+            @Result(property = "thumbUrl",     column = "thumb_url"),
+            @Result(property = "imageUrl",     column = "image_url"),
+            @Result(property = "cpName",       column = "cp_name"),
+            @Result(property = "cpNameDisplay",column = "cp_name_display"),
+            @Result(property = "dateTime",     column = "date"),
+            @Result(property = "viewCount",    column = "view_count"),
+            @Result(property = "suggestCount", column = "suggest_count"),
+            @Result(property = "imageCount",   column = "image_count"),
+            @Result(property = "videoCount",   column = "video_count"),
+            @Result(property = "replyCount",   column = "reply_count")
+    })
+    List<Board> selectDateBetweenReplyCountBoard(
+            @Param("startDateTime") String startDate,
+            @Param("endDateTime") String endDate,
+            @Param("from") int from,
+            @Param("size") int size
+    );
+
+
+    @Select("SELECT id, title, writer, url, thumb_url, image_url, cp_name, cp_name_display, date, view_count, suggest_count, reply_count FROM board" +
+            " WHERE date BETWEEN #{startDate} AND #{endDate} order by view_count desc limit #{from}, #{size}")
+    @Results(value = {
+            @Result(property = "id",           column = "id"),
+            @Result(property = "title",        column = "title"),
+            @Result(property = "writer",       column = "writer"),
+            @Result(property = "url",          column = "url"),
+            @Result(property = "thumbUrl",     column = "thumb_url"),
+            @Result(property = "imageUrl",     column = "image_url"),
+            @Result(property = "cpName",       column = "cp_name"),
+            @Result(property = "cpNameDisplay",column = "cp_name_display"),
+            @Result(property = "dateTime",     column = "date"),
+            @Result(property = "viewCount",    column = "view_count"),
+            @Result(property = "suggestCount", column = "suggest_count"),
+            @Result(property = "imageCount",   column = "image_count"),
+            @Result(property = "videoCount",   column = "video_count"),
+            @Result(property = "replyCount",   column = "reply_count")
+    })
+    List<Board> selectDateBetweenViewCountBoard(
+            @Param("startDateTime") String startDate,
+            @Param("endDateTime") String endDate,
+            @Param("from") int from,
+            @Param("size") int size
+    );
+
+
+    @Select("SELECT id, title, writer, url, thumb_url, image_url, cp_name, cp_name_display, date, view_count, suggest_count, reply_count FROM board" +
+            " WHERE date BETWEEN #{startDate} AND #{endDate} order by suggest_count desc limit #{from}, #{size}")
+    @Results(value = {
+            @Result(property = "id",           column = "id"),
+            @Result(property = "title",        column = "title"),
+            @Result(property = "writer",       column = "writer"),
+            @Result(property = "url",          column = "url"),
+            @Result(property = "thumbUrl",     column = "thumb_url"),
+            @Result(property = "imageUrl",     column = "image_url"),
+            @Result(property = "cpName",       column = "cp_name"),
+            @Result(property = "cpNameDisplay",column = "cp_name_display"),
+            @Result(property = "dateTime",     column = "date"),
+            @Result(property = "viewCount",    column = "view_count"),
+            @Result(property = "suggestCount", column = "suggest_count"),
+            @Result(property = "imageCount",   column = "image_count"),
+            @Result(property = "videoCount",   column = "video_count"),
+            @Result(property = "replyCount",   column = "reply_count")
+    })
+    List<Board> selectDateBetweenSuggestCountBoard(
+            @Param("startDateTime") String startDate,
+            @Param("endDateTime") String endDate,
+            @Param("from") int from,
+            @Param("size") int size
+    );
+
 
     @Select("SELECT id, title, writer, url, thumb_url, image_url, cp_name, cp_name_display, date, view_count, suggest_count, reply_count " +
             "FROM board " +
@@ -48,7 +128,11 @@ public interface BoardMapper {
             @Result(property = "videoCount",   column = "video_count"),
             @Result(property = "replyCount",   column = "reply_count")
     })
-    List<Board> selectCpNameBoardFromTo(@Param("cp") String cp, @Param("from") int from, @Param("size") int size);
+    List<Board> selectCpNameBoardFromTo(
+            @Param("cp") String cp,
+            @Param("from") int from,
+            @Param("size") int size
+    );
 
     @Select("SELECT id, title, writer, url, thumb_url, image_url, cp_name, cp_name_display, date, view_count, suggest_count, reply_count " +
             "FROM board order by date desc limit #{from}, #{size}")
@@ -68,7 +152,10 @@ public interface BoardMapper {
             @Result(property = "videoCount",   column = "video_count"),
             @Result(property = "replyCount",   column = "reply_count")
     })
-    List<Board> selectBoardFromTo(@Param("from") int from, @Param("size") int size);
+    List<Board> selectBoardFromTo(
+            @Param("from") int from,
+            @Param("size") int size
+    );
 
     @Select("SELECT id, title, writer, url, thumb_url, image_url, cp_name, cp_name_display, date, view_count, suggest_count, reply_count FROM board WHERE id=#{id}")
     @Results(value = {

@@ -48,32 +48,41 @@
                     </ul>
                 </li>
 
-                <#--<li class="dropdown">-->
-                    <#--<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">침구류<span class="caret"></span></a>-->
-                    <#--<ul class="dropdown-menu" role="menu">-->
-                        <#--<li><a href="./search?category_search_type=category&cate1=003&size=20&from=0&display_type=0">침구류 전체</a></li>-->
-                        <#--<li><a href="./search?category_search_type=category&cate1=003&cate2=001&size=20&from=0&display_type=0">침낭 전체</a></li>-->
-                        <#--<li class="divider"></li>-->
-                        <#--<li><a href="./search?category_search_type=category&cate1=003&cate2=002&size=20&from=0&display_type=0">매트 전체</a></li>-->
-                        <#--<li class="divider"></li>-->
-                        <#--<li><a href="./search?category_search_type=category&cate1=003&cate2=003&size=20&from=0&display_type=0">침대/해먹</a></li>-->
-                        <#--<li><a href="./search?category_search_type=category&cate1=003&cate2=004&size=20&from=0&display_type=0">베개/방석/귀마개/안대</a></li>-->
-                        <#--<li><a href="./search?category_search_type=category&cate1=003&cate2=999&size=20&from=0&display_type=0">침구류 기타</a></li>-->
-                    <#--</ul>-->
-                <#--</li>-->
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">댓글순<span class="caret"></span></a>
+                    <ul class="dropdown-menu" role="menu">
+                        <li><a href="./list?date_opt=30min&sort=reply">최근30분</a></li>
+                        <li><a href="./list?date_opt=1hour&sort=reply">최근1시간</a></li>
+                        <li><a href="./list?date_opt=3hour&sort=reply">최근3시간</a></li>
+                        <li><a href="./list?date_opt=6hour&sort=reply">최근6시간</a></li>
+                        <li><a href="./list?date_opt=12hour&sort=reply">최근12시간</a></li>
+                        <li><a href="./list?date_opt=24hour&sort=reply">최근24시간</a></li>
+                    </ul>
+                </li>
 
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">조회순<span class="caret"></span></a>
+                    <ul class="dropdown-menu" role="menu">
+                        <li><a href="./list?date_opt=30min&sort=view">최근30분</a></li>
+                        <li><a href="./list?date_opt=1hour&sort=view">최근1시간</a></li>
+                        <li><a href="./list?date_opt=3hour&sort=view">최근3시간</a></li>
+                        <li><a href="./list?date_opt=6hour&sort=view">최근6시간</a></li>
+                        <li><a href="./list?date_opt=12hour&sort=view">최근12시간</a></li>
+                        <li><a href="./list?date_opt=24hour&sort=view">최근24시간</a></li>
+                    </ul>
+                </li>
 
-                <#--<li class="dropdown">-->
-                    <#--<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">버너류/난로류<span class="caret"></span></a>-->
-                    <#--<ul class="dropdown-menu" role="menu">-->
-                        <#--<li><a href="./search?category_search_type=category&cate1=004&size=20&from=0&display_type=0">버너류/난로류 전체</a></li>-->
-                        <#--<li><a href="./search?category_search_type=category&cate1=004&cate2=001&size=20&from=0&display_type=0">버너 전체</a></li>-->
-                        <#--<li><a href="./search?category_search_type=category&cate1=004&cate2=002&size=20&from=0&display_type=0">버너관련 기타</a></li>-->
-                        <#--<li><a href="./search?category_search_type=category&cate1=004&cate2=003&size=20&from=0&display_type=0">난방/난로/히터</a></li>-->
-                        <#--<li><a href="./search?category_search_type=category&cate1=004&cate2=004&size=20&from=0&display_type=0">연료/연료통</a></li>-->
-                        <#--<li><a href="./search?category_search_type=category&cate1=004&cate2=999&size=20&from=0&display_type=0">버너류/난로류 기타</a></li>-->
-                    <#--</ul>-->
-                <#--</li>-->
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">추천순<span class="caret"></span></a>
+                    <ul class="dropdown-menu" role="menu">
+                        <li><a href="./list?date_opt=30min&sort=suggest">최근30분</a></li>
+                        <li><a href="./list?date_opt=1hour&sort=suggest">최근1시간</a></li>
+                        <li><a href="./list?date_opt=3hour&sort=suggest">최근3시간</a></li>
+                        <li><a href="./list?date_opt=6hour&sort=suggest">최근6시간</a></li>
+                        <li><a href="./list?date_opt=12hour&sort=suggest">최근12시간</a></li>
+                        <li><a href="./list?date_opt=24hour&sort=suggest">최근24시간</a></li>
+                    </ul>
+                </li>
 
                 <li>
                     <a href="#">About</a>
