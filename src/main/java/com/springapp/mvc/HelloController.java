@@ -37,12 +37,24 @@ public class HelloController {
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
 	public String getMain(ModelMap model,
 						  @RequestParam(value = "from",  defaultValue = "0") int from,
-						  @RequestParam(value = "size", defaultValue = "15") int size) throws Exception {
+						  @RequestParam(value = "size",  defaultValue = "15") int size,
+						  @RequestParam(value = "cp",    defaultValue = "") String cpName) throws Exception {
 		List<Map<String, Object>> boradList;
 		List<Map<String, Object>> mallRepuList;
 		List<Board> boardList = new ArrayList<Board>();
+		String cp="";
+		int listCount=0;
+		List<Board> boardSelect=null;
 
-		List<Board> boardSelect = boardMapper.selectBoardFromTo(from, size);
+
+		if (cpName.length()==0) {
+			boardSelect = boardMapper.selectBoardFromTo(from, size);
+		} else {
+			cp = new String(cpName.getBytes("ISO-8859-1"),"UTF-8");
+			boardSelect = boardMapper.selectCpNameBoardFromTo(cp, from, size);
+			logger.info(" cp [" + cp + "]");
+		}
+
 		Iterator iter = boardSelect.iterator();
 		while (iter.hasNext()) {
 			Board board = new Board();
@@ -69,8 +81,9 @@ public class HelloController {
 
 			logger.info(board.getTitle());
 			logger.info(board.getUrl());
-			logger.info(board.getDateTime());
 			logger.info("==========================================");
+
+			listCount++;
 		}
 
 		/**
@@ -96,9 +109,12 @@ public class HelloController {
 		model.addAttribute("nextFrom", nextFrom);
 		model.addAttribute("size", size);
 		model.addAttribute("from", from);
+		model.addAttribute("cp", cp);
+		model.addAttribute("listCount", listCount);
 
 		return "board_list";
 	}
+
 
 //	@RequestMapping(value = "/get.json", method = RequestMethod.GET)
 //	@ResponseBody
