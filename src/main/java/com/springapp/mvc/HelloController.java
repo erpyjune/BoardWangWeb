@@ -57,7 +57,7 @@ public class HelloController {
 			board.setImageCount(boardTemp.getImageCount());
 			board.setVideoCount(boardTemp.getVideoCount());
 			board.setThumbUrl(boardTemp.getThumbUrl());
-			if (board.getImageUrl().length()>0) {
+			if (board.getThumbUrl().length()>0) {
 				board.setIsThumbnail("Y");
 			}
 			board.setDateTime(boardTemp.getDateTime().substring(4,8));

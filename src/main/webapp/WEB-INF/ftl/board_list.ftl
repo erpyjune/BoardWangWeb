@@ -28,7 +28,7 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="./list">Home</a>
+            <a class="navbar-brand" href="./list">보드왕</a>
         </div>
         <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
@@ -189,7 +189,7 @@
     <#list boardList as product>
         <tr>
             <#if product.getIsThumbnail() == "Y">
-                <td><img src="${product.getImageUrl()}" class="img-rounded" alt="Cinque Terre" width="50" height="50"></td>
+                <td><img src="http://kiwitomato.com/boardwang_img/thumb/${product.getCpName()}/${product.getThumbUrl()}" class="img-rounded" alt="Cinque Terre" width="50" height="50"></td>
             <#else>
                 <td></td>
             </#if>
