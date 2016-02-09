@@ -132,9 +132,9 @@
 
     <ul class="pager">
         <#if from gt 0>
-        <li><a href="./list?from=${prevFrom}&size=${size}&cp=${cp}">Previous</a></li>
+        <li><a href="./list?from=${prevFrom}&size=${size}&cp=${cp}&date_opt=${date_opt}&sort=${sort}">Previous</a></li>
         </#if>
-        <li><a href="./list?from=${nextFrom}&size=${size}&cp=${cp}">Next</a></li>
+        <li><a href="./list?from=${nextFrom}&size=${size}&cp=${cp}&date_opt=${date_opt}&sort=${sort}">Next</a></li>
 
     </ul>
 

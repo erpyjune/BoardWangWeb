@@ -208,6 +208,8 @@ public class HelloController {
 		model.addAttribute("from", from);
 		model.addAttribute("cp", cp);
 		model.addAttribute("listCount", listCount);
+		model.addAttribute("date_opt", dateOpt);
+		model.addAttribute("sort", sortField);
 
 		return "board_list";
 	}
