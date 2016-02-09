@@ -196,7 +196,7 @@
             <#--<td>${product.getCpName()}</td>-->
             <td>
                 <a href="${product.getUrl()}" target="_blank">${product.getTitle()}</a>&nbsp;<span class="badge">${product.getReplyCount()}</span><br>
-                조회수&nbsp;<span class="badge">${product.getViewCount()}</span>,&nbsp;&nbsp;추천수 &nbsp;<span class="badge">${product.getSuggestCount()}</span>
+                <small>조회수&nbsp;${product.getViewCount()}</small>,&nbsp;&nbsp;추천수 &nbsp;<small>${product.getSuggestCount()}</small>
             </td>
             <td>${product.getDateTime()}</td>
             <#--<td>${product.getViewCount()}</td>-->
