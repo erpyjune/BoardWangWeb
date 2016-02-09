@@ -37,7 +37,7 @@ public class HelloController {
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
 	public String getMain(ModelMap model,
 						  @RequestParam(value = "from",  defaultValue = "0") int from,
-						  @RequestParam(value = "size", defaultValue = "10") int size) throws Exception {
+						  @RequestParam(value = "size", defaultValue = "15") int size) throws Exception {
 		List<Map<String, Object>> boradList;
 		List<Map<String, Object>> mallRepuList;
 		List<Board> boardList = new ArrayList<Board>();
