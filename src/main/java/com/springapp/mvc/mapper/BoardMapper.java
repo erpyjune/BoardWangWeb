@@ -32,7 +32,7 @@ public interface BoardMapper {
 
 
     @Select("SELECT id, title, writer, url, thumb_url, image_url, cp_name, cp_name_display, date, view_count, suggest_count, reply_count FROM board" +
-            " WHERE date BETWEEN #{startDate} AND #{endDate} order by reply_count desc limit #{from}, #{size}")
+            " WHERE date BETWEEN #{startDateTime} AND #{endDateTime} order by reply_count desc limit #{from}, #{size}")
     @Results(value = {
             @Result(property = "id",           column = "id"),
             @Result(property = "title",        column = "title"),
@@ -50,15 +50,15 @@ public interface BoardMapper {
             @Result(property = "replyCount",   column = "reply_count")
     })
     List<Board> selectDateBetweenReplyCountBoard(
-            @Param("startDateTime") String startDate,
-            @Param("endDateTime") String endDate,
+            @Param("startDateTime") String startDateTime,
+            @Param("endDateTime") String endDateTime,
             @Param("from") int from,
             @Param("size") int size
     );
 
 
     @Select("SELECT id, title, writer, url, thumb_url, image_url, cp_name, cp_name_display, date, view_count, suggest_count, reply_count FROM board" +
-            " WHERE date BETWEEN #{startDate} AND #{endDate} order by view_count desc limit #{from}, #{size}")
+            " WHERE date BETWEEN #{startDateTime} AND #{endDateTime} order by view_count desc limit #{from}, #{size}")
     @Results(value = {
             @Result(property = "id",           column = "id"),
             @Result(property = "title",        column = "title"),
@@ -76,15 +76,15 @@ public interface BoardMapper {
             @Result(property = "replyCount",   column = "reply_count")
     })
     List<Board> selectDateBetweenViewCountBoard(
-            @Param("startDateTime") String startDate,
-            @Param("endDateTime") String endDate,
+            @Param("startDateTime") String startDateTime,
+            @Param("endDateTime") String endDateTime,
             @Param("from") int from,
             @Param("size") int size
     );
 
 
     @Select("SELECT id, title, writer, url, thumb_url, image_url, cp_name, cp_name_display, date, view_count, suggest_count, reply_count FROM board" +
-            " WHERE date BETWEEN #{startDate} AND #{endDate} order by suggest_count desc limit #{from}, #{size}")
+            " WHERE date BETWEEN #{startDateTime} AND #{endDateTime} order by suggest_count desc limit #{from}, #{size}")
     @Results(value = {
             @Result(property = "id",           column = "id"),
             @Result(property = "title",        column = "title"),
@@ -102,8 +102,8 @@ public interface BoardMapper {
             @Result(property = "replyCount",   column = "reply_count")
     })
     List<Board> selectDateBetweenSuggestCountBoard(
-            @Param("startDateTime") String startDate,
-            @Param("endDateTime") String endDate,
+            @Param("startDateTime") String startDateTime,
+            @Param("endDateTime") String endDateTime,
             @Param("from") int from,
             @Param("size") int size
     );

@@ -85,29 +85,29 @@ public class HelloController {
 
 
 	public List<Board> selectService(String cpName, String dateOpt, String sortField, int from, int size) throws Exception {
-		String startDate="", endDate="";
+		String startDateTime="", endDateTime="";
 		List<Board> boardList=null;
 		Map<String, String> dateMap=null;
 
 		if (dateOpt.trim().length()>0) {
 			dateMap = getDateTimeOption(dateOpt);
-			startDate = dateMap.get("start");
-			endDate = dateMap.get("end");
+			startDateTime = dateMap.get("start");
+			endDateTime = dateMap.get("end");
 
-			if (startDate.length()==0 || endDate.length()==0) {
+			if (startDateTime.length()==0 || endDateTime.length()==0) {
 				dateOpt="";
 			}
 		}
 
 		if (cpName.length()==0) {
 			if ("reply".equals(sortField) && dateOpt.length()>0) {
-				boardList = boardMapper.selectDateBetweenReplyCountBoard(startDate, endDate, from, size);
+				boardList = boardMapper.selectDateBetweenReplyCountBoard(startDateTime, endDateTime, from, size);
 				logger.info(" sort : reply");
 			} else if ("view".equals(sortField) && dateOpt.length()>0){
-				boardList = boardMapper.selectDateBetweenViewCountBoard(startDate, endDate, from, size);
+				boardList = boardMapper.selectDateBetweenViewCountBoard(startDateTime, endDateTime, from, size);
 				logger.info(" sort : view");
 			} else if ("suggest".equals(sortField) && dateOpt.length()>0){
-				boardList = boardMapper.selectDateBetweenSuggestCountBoard(startDate, endDate, from, size);
+				boardList = boardMapper.selectDateBetweenSuggestCountBoard(startDateTime, endDateTime, from, size);
 				logger.info(" sort : suggest");
 			} else {
 				boardList = boardMapper.selectBoardFromTo(from, size);
