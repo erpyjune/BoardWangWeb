@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.ServletContext;
+import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -51,7 +52,7 @@ public class HelloController {
 		if (cpName.length()==0) {
 			boardSelect = boardMapper.selectBoardFromTo(from, size);
 		} else {
-			String s = URLEncoder.encode(cpName,"utf-8");
+			String s = URLDecoder.decode(cpName, "utf-8");
 //			cp = new String(s.getBytes("ISO-8859-1"),"UTF-8");
 			cp = s;
 			boardSelect = boardMapper.selectCpNameBoardFromTo(cp, from, size);
