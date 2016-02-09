@@ -114,9 +114,8 @@ public class HelloController {
 				logger.info(" sort : not");
 			}
 		} else {
-			String decodeCpName = URLDecoder.decode(cpName, "utf-8");
-			boardList = boardMapper.selectCpNameBoardFromTo(decodeCpName, from, size);
-			logger.info(" cp [" + decodeCpName + "]");
+			boardList = boardMapper.selectCpNameBoardFromTo(cpName, from, size);
+			logger.info(" cp [" + cpName + "]");
 		}
 
 		return boardList;
@@ -149,9 +148,15 @@ public class HelloController {
 
 
 		/**
+		 * decode cp name
+		 */
+		String decodeCpName = URLDecoder.decode(cpName, "utf-8");
+
+
+		/**
 		 * select SQL
 		 */
-		boardSelect = selectService(cpName,dateOpt,sortField,from, size);
+		boardSelect = selectService(decodeCpName,dateOpt,sortField,from, size);
 		Iterator iter = boardSelect.iterator();
 		while (iter.hasNext()) {
 			Board board = new Board();
@@ -206,7 +211,7 @@ public class HelloController {
 		model.addAttribute("nextFrom", nextFrom);
 		model.addAttribute("size", size);
 		model.addAttribute("from", from);
-		model.addAttribute("cp", cp);
+		model.addAttribute("cp", decodeCpName);
 		model.addAttribute("listCount", listCount);
 		model.addAttribute("date_opt", dateOpt);
 		model.addAttribute("sort", sortField);
