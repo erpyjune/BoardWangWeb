@@ -39,6 +39,12 @@ public class HelloController {
 		return "hello";
 	}
 
+	@RequestMapping(value = "/about", method = RequestMethod.GET)
+	public String printAbout(ModelMap model) {
+		model.addAttribute("message", "키위토마토닷컴");
+		return "about";
+	}
+
 	/**
 	 *
 	 * @param opt
