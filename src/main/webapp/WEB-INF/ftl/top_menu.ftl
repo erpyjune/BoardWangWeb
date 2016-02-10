@@ -8,7 +8,7 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="./main" target="_blank">Kito</a>
+            <a class="navbar-brand" href="./main">Kito</a>
         </div>
         <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
@@ -65,7 +65,7 @@
                 </li>
 
                 <li>
-                    <a href="./about">About</a>
+                    <a href="./about" target="_blank">About</a>
                 </li>
             </ul>
         </div>
