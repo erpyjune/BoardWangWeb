@@ -28,7 +28,7 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="./main">보드왕</a>
+            <a class="navbar-brand" href="./list">보드왕</a>
         </div>
         <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
@@ -94,18 +94,15 @@
     <!-- /.container -->
 </nav>
 
-
-<div class="container">
-
-<#----------------------------------------------- 최근 30분간 인기글 --------------------------------------------->
 <#if boardList??>
+<div class="container">
+    <!-- <div class="container-fluid"> -->
     <table class="table table-striped">
         <thead>
         <tr>
-            <button type="button" class="btn btn-primary">글 리스트</button>
-            <#--<th>최근 30분 최신정보</th>-->
-            <#--<th>제목</th>-->
-            <#--<th>제목</th>-->
+            <th>이미지</th>
+            <#--<th>사이트</th>-->
+            <th>제목</th>
             <#--<th>날짜</th>-->
             <#--<th>조회수</th>-->
             <#--<th>추천수</th>-->
@@ -114,7 +111,7 @@
         <tbody>
     <#list boardList as product>
         <tr>
-            <#if product.getThumbUrl()?length &gt; 0>
+            <#if product.getIsThumbnail() == "Y">
                 <td><img src="http://kiwitomato.com/boardwang_img/thumb/${product.getCpName()}/${product.getThumbUrl()}" class="img-rounded" alt="Cinque Terre" width="50" height="50"></td>
             <#else>
                 <td></td>
@@ -134,17 +131,15 @@
     </table>
 
     <ul class="pager">
-        <#if from &gt; 0>
-            <li><a href="./list?from=${prevFrom}&size=${size}&cp=${cp}&date_opt=${date_opt}&sort=${sort}">앞으로</a></li>
+        <#if from gt 0>
+        <li><a href="./list?from=${prevFrom}&size=${size}&cp=${cp}&date_opt=${date_opt}&sort=${sort}">Previous</a></li>
         </#if>
-        <li><a href="./list?from=${nextFrom}&size=${size}&cp=${cp}&date_opt=${date_opt}&sort=${sort}">더보기</a></li>
+        <li><a href="./list?from=${nextFrom}&size=${size}&cp=${cp}&date_opt=${date_opt}&sort=${sort}">Next</a></li>
 
     </ul>
-</#if> <!-- boardList -->
-
-    <div class="well well-sm">Board Wang. Copyright &copy; 2016 All right reserved. <span class="glyphicon glyphicon-envelope"></span>&nbsp;summarynode@gmail.com</div>
 
 </div> <!-- ccontainer -->
+</#if> <!-- boardList -->
 
 </body>
 </html>

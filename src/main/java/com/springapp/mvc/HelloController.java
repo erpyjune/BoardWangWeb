@@ -45,7 +45,7 @@ public class HelloController {
 	 * @return
 	 * @throws Exception
 	 */
-	public Map<String, String> getDateTimeOption(String opt) throws Exception {
+	private Map<String, String> getDateTimeOption(String opt) throws Exception {
 		StdUtils stdUtils = new StdUtils();
 		String currDateTime="";
 		String beforeDateTime="";
@@ -83,8 +83,17 @@ public class HelloController {
 		return map;
 	}
 
-
-	public List<Board> selectService(String cpName, String dateOpt, String sortField, int from, int size) throws Exception {
+	/**
+	 *
+	 * @param cpName
+	 * @param dateOpt
+	 * @param sortField
+	 * @param from
+	 * @param size
+	 * @return
+	 * @throws Exception
+	 */
+	private List<Board> selectService(String cpName, String dateOpt, String sortField, int from, int size) throws Exception {
 		String startDateTime="", endDateTime="";
 		List<Board> boardList=null;
 		Map<String, String> dateMap=null;
@@ -123,41 +132,14 @@ public class HelloController {
 
 	/**
 	 *
-	 * @param model
-	 * @param from
-	 * @param size
-	 * @param cpName
-	 * @param dateOpt
+	 * @param iter
 	 * @return
 	 * @throws Exception
 	 */
-	@RequestMapping(value = "/list", method = RequestMethod.GET)
-	public String getMain(ModelMap model,
-						  @RequestParam(value = "from",  defaultValue = "0") int from,
-						  @RequestParam(value = "size",  defaultValue = "15") int size,
-						  @RequestParam(value = "cp",    defaultValue = "") String cpName,
-						  @RequestParam(value = "date_opt",    defaultValue = "") String dateOpt,
-						  @RequestParam(value = "sort",    defaultValue = "") String sortField) throws Exception {
+	private List<Board> makeBoardIterator(Iterator iter) throws Exception {
+		String tempStr;
+		List<Board> boardList = new ArrayList<>();
 
-		List<Map<String, Object>> boradList;
-		List<Map<String, Object>> mallRepuList;
-		List<Board> boardList = new ArrayList<Board>();
-		String cp="";
-		int listCount=0;
-		List<Board> boardSelect=null;
-
-
-		/**
-		 * decode cp name
-		 */
-		String decodeCpName = URLDecoder.decode(cpName, "utf-8");
-
-
-		/**
-		 * select SQL
-		 */
-		boardSelect = selectService(decodeCpName,dateOpt,sortField,from, size);
-		Iterator iter = boardSelect.iterator();
 		while (iter.hasNext()) {
 			Board board = new Board();
 			Board boardTemp = (Board)iter.next();
@@ -171,10 +153,15 @@ public class HelloController {
 			board.setImageCount(boardTemp.getImageCount());
 			board.setVideoCount(boardTemp.getVideoCount());
 			board.setThumbUrl(boardTemp.getThumbUrl());
-			if (board.getThumbUrl().length()>0) {
-				board.setIsThumbnail("Y");
+			if (boardTemp.getDateTime().length()>=12) {
+				tempStr = String.format("%s-%s-%s %s:%s",
+						boardTemp.getDateTime().substring(0, 4),
+						boardTemp.getDateTime().substring(4, 6),
+						boardTemp.getDateTime().substring(6, 8),
+						boardTemp.getDateTime().substring(8, 10),
+						boardTemp.getDateTime().substring(10, 12));
+				board.setDateTime(tempStr);
 			}
-			board.setDateTime(boardTemp.getDateTime().substring(4,8));
 			board.setViewCount(boardTemp.getViewCount());
 			board.setSuggestCount(boardTemp.getSuggestCount());
 			board.setReplyCount(boardTemp.getReplyCount());
@@ -184,9 +171,43 @@ public class HelloController {
 			logger.info(board.getTitle());
 			logger.info(board.getUrl());
 			logger.info("==========================================");
-
-			listCount++;
 		}
+
+		return boardList;
+	}
+
+	/**
+	 *
+	 * @param model
+	 * @param from
+	 * @param size
+	 * @param cpName
+	 * @param dateOpt
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping(value = "/list", method = RequestMethod.GET)
+	public String getList(
+			              ModelMap model,
+						  @RequestParam(value = "from",  defaultValue = "0") int from,
+						  @RequestParam(value = "size",  defaultValue = "15") int size,
+						  @RequestParam(value = "cp",    defaultValue = "") String cpName,
+						  @RequestParam(value = "date_opt",    defaultValue = "") String dateOpt,
+						  @RequestParam(value = "sort",    defaultValue = "") String sortField
+	) throws Exception {
+
+		/**
+		 * decode cp name
+		 */
+		String decodeCpName = URLDecoder.decode(cpName, "utf-8");
+
+
+		/**
+		 * select SQL
+		 */
+		List<Board> recencyBoardList = selectService(decodeCpName,dateOpt,sortField,from, size);
+		List<Board> boardList = makeBoardIterator(recencyBoardList.iterator());
+
 
 		/**
 		 * page 계산
@@ -212,11 +233,100 @@ public class HelloController {
 		model.addAttribute("size", size);
 		model.addAttribute("from", from);
 		model.addAttribute("cp", decodeCpName);
-		model.addAttribute("listCount", listCount);
 		model.addAttribute("date_opt", dateOpt);
 		model.addAttribute("sort", sortField);
 
 		return "board_list";
+	}
+
+
+	/**
+	 *
+	 * @param model
+	 * @param from
+	 * @param size
+	 * @param cpName
+	 * @param dateOpt
+	 * @param sortField
+	 * @param how
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping(value = "/main", method = RequestMethod.GET)
+	public String getMainPage(ModelMap model,
+						  @RequestParam(value = "from",  defaultValue = "0") int from,
+						  @RequestParam(value = "size",  defaultValue = "15") int size,
+						  @RequestParam(value = "cp",    defaultValue = "") String cpName,
+						  @RequestParam(value = "date_opt",    defaultValue = "") String dateOpt,
+						  @RequestParam(value = "sort",    defaultValue = "") String sortField,
+						  @RequestParam(value = "how",    defaultValue = "") String how) throws Exception {
+
+		Map<String, String> dateMap=null;
+		List<Board> tempList=null;
+		List<Board> boradListA=null;
+		List<Board> boradListB=null;
+		List<Board> boradListC=null;
+
+
+		/**
+		 * select recency sql
+		 */
+		tempList = boardMapper.selectBoardFromTo(from, 7);
+		boradListA = makeBoardIterator(tempList.iterator());
+
+		/**
+		 * 최신 reply 30분
+		 */
+		dateMap = getDateTimeOption("30min");
+		tempList = boardMapper.selectDateBetweenReplyCountBoard(dateMap.get("start"), dateMap.get("end"), from, 7);
+		boradListB = makeBoardIterator(tempList.iterator());
+		logger.info(String.format(" 최신 1시간 start[%s], end[%s]", dateMap.get("start"), dateMap.get("end")));
+
+		/**
+		 * 최신 reply 3시간
+		 */
+		dateMap = getDateTimeOption("3hour");
+		tempList = boardMapper.selectDateBetweenReplyCountBoard(dateMap.get("start"), dateMap.get("end"), from, 7);
+		boradListC = makeBoardIterator(tempList.iterator());
+		logger.info(String.format(" 최신 3시간 start[%s], end[%s]", dateMap.get("start"), dateMap.get("end")));
+
+
+		/**
+		 * page 계산
+		 */
+		int prevFrom=0;
+		if (from > 0) {
+			prevFrom = from - size;
+			if (prevFrom < 0) prevFrom = 0;
+		} else {
+			prevFrom = 0;
+		}
+
+		int nextFrom=0;
+		nextFrom = from + size;
+
+		/**
+		 * model data
+		 */
+		model.addAttribute("boradListA", boradListA);
+		model.addAttribute("boradListB", boradListB);
+		model.addAttribute("boradListC", boradListC);
+
+		model.addAttribute("boradListAcount", boradListA.size());
+		model.addAttribute("boradListBcount", boradListB.size());
+		model.addAttribute("boradListCcount", boradListC.size());
+
+		model.addAttribute("title", "보드왕");
+		model.addAttribute("prevFrom", prevFrom);
+		model.addAttribute("nextFrom", nextFrom);
+		model.addAttribute("size", size);
+		model.addAttribute("from", from);
+		model.addAttribute("cp", cpName);
+
+		model.addAttribute("date_opt", dateOpt);
+		model.addAttribute("sort", sortField);
+
+		return "board_main";
 	}
 
 
