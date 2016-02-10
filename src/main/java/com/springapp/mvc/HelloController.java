@@ -269,32 +269,68 @@ public class HelloController {
 
 		Map<String, String> dateMap=null;
 		List<Board> tempList=null;
-		List<Board> boradListA=null;
-		List<Board> boradListB=null;
-		List<Board> boradListC=null;
+		List<Board> boradListA=null; // 최신글
+		List<Board> boradListB=null; // 30분
+		List<Board> boradListC=null; // 1시간
+		List<Board> boradListD=null; // 3시간
+		List<Board> boradListE=null; // 6시간
+		List<Board> boradListF=null; // 12시간
+		List<Board> boradListG=null; // 24시간
 
 
 		/**
-		 * select recency sql
+		 * 최신글
 		 */
-		tempList = boardMapper.selectBoardFromTo(from, 7);
+		tempList = boardMapper.selectBoardFromTo(from, 4);
 		boradListA = makeBoardIterator(tempList.iterator());
 
 		/**
 		 * 최신 reply 30분
 		 */
 		dateMap = getDateTimeOption("30min");
-		tempList = boardMapper.selectDateBetweenReplyCountBoard(dateMap.get("start"), dateMap.get("end"), from, 7);
+		tempList = boardMapper.selectDateBetweenReplyCountBoard(dateMap.get("start"), dateMap.get("end"), from, 4);
 		boradListB = makeBoardIterator(tempList.iterator());
+		logger.info(String.format(" 최신 1시간 start[%s], end[%s]", dateMap.get("start"), dateMap.get("end")));
+
+		/**
+		 * 최신 reply 1시간
+		 */
+		dateMap = getDateTimeOption("1hour");
+		tempList = boardMapper.selectDateBetweenReplyCountBoard(dateMap.get("start"), dateMap.get("end"), from, 4);
+		boradListC = makeBoardIterator(tempList.iterator());
 		logger.info(String.format(" 최신 1시간 start[%s], end[%s]", dateMap.get("start"), dateMap.get("end")));
 
 		/**
 		 * 최신 reply 3시간
 		 */
 		dateMap = getDateTimeOption("3hour");
-		tempList = boardMapper.selectDateBetweenReplyCountBoard(dateMap.get("start"), dateMap.get("end"), from, 7);
-		boradListC = makeBoardIterator(tempList.iterator());
+		tempList = boardMapper.selectDateBetweenReplyCountBoard(dateMap.get("start"), dateMap.get("end"), from, 4);
+		boradListD = makeBoardIterator(tempList.iterator());
 		logger.info(String.format(" 최신 3시간 start[%s], end[%s]", dateMap.get("start"), dateMap.get("end")));
+
+		/**
+		 * 최신 reply 6시간
+		 */
+		dateMap = getDateTimeOption("6hour");
+		tempList = boardMapper.selectDateBetweenReplyCountBoard(dateMap.get("start"), dateMap.get("end"), from, 4);
+		boradListE = makeBoardIterator(tempList.iterator());
+		logger.info(String.format(" 최신 6시간 start[%s], end[%s]", dateMap.get("start"), dateMap.get("end")));
+
+		/**
+		 * 최신 reply 12시간
+		 */
+		dateMap = getDateTimeOption("12hour");
+		tempList = boardMapper.selectDateBetweenReplyCountBoard(dateMap.get("start"), dateMap.get("end"), from, 4);
+		boradListF = makeBoardIterator(tempList.iterator());
+		logger.info(String.format(" 최신 12시간 start[%s], end[%s]", dateMap.get("start"), dateMap.get("end")));
+
+		/**
+		 * 최신 reply 24시간
+		 */
+		dateMap = getDateTimeOption("24hour");
+		tempList = boardMapper.selectDateBetweenReplyCountBoard(dateMap.get("start"), dateMap.get("end"), from, 4);
+		boradListG = makeBoardIterator(tempList.iterator());
+		logger.info(String.format(" 최신 24시간 start[%s], end[%s]", dateMap.get("start"), dateMap.get("end")));
 
 
 		/**
@@ -317,10 +353,10 @@ public class HelloController {
 		model.addAttribute("boradListA", boradListA);
 		model.addAttribute("boradListB", boradListB);
 		model.addAttribute("boradListC", boradListC);
-
-		model.addAttribute("boradListAcount", boradListA.size());
-		model.addAttribute("boradListBcount", boradListB.size());
-		model.addAttribute("boradListCcount", boradListC.size());
+		model.addAttribute("boradListD", boradListD);
+		model.addAttribute("boradListE", boradListE);
+		model.addAttribute("boradListF", boradListF);
+		model.addAttribute("boradListG", boradListG);
 
 		model.addAttribute("title", "보드왕");
 		model.addAttribute("prevFrom", prevFrom);
