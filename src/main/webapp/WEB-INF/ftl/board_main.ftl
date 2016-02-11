@@ -337,6 +337,11 @@
     </ul>
 </#if> <!-- boradListG -->
 
+<#----------------------------------------------- google Ads --------------------------------------------->
+<#include "./googleads.ftl">
+
+
+    <#----------------------------------------------- footer --------------------------------------------->
     <div class="well well-sm">키위토마토닷컴. Copyright &copy; 2016 All right reserved. <span class="glyphicon glyphicon-envelope"></span>&nbsp;<em>summarynode@gmail.com</em></div>
 
 </div> <!-- ccontainer -->
