@@ -4,8 +4,8 @@
     <!-- 광고1 -->
     <ins class="adsbygoogle"
          style="display:block"
-         data-ad-client="ca-pub-8225681706684891"
-         data-ad-slot="1964857762"
+         data-ad-client="ca-pub-1857142740971735"
+         data-ad-slot="2995771007"
          data-ad-format="auto"></ins>
     <script>
         (adsbygoogle = window.adsbygoogle || []).push({});
