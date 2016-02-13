@@ -26,6 +26,7 @@
                         <li><a href="./list?cp=풀빵닷컴">풀빵닷컴</a></li>
                         <li><a href="./list?cp=헝그리앱">헝그리앱</a></li>
                         <li><a href="./list?cp=다음아고라">다음아고라</a></li>
+                        <li><a href="./list?cp=오늘의유머">오늘의유머</a></li>
                     </ul>
                 </li>
 

@@ -28,16 +28,11 @@ public class HelloController {
 	private @Autowired
 	ServletContext servletContext;
 
-	/**
-	 *
-	 * @param model
-	 * @return
-	 */
-	@RequestMapping(method = RequestMethod.GET)
-	public String printWelcome(ModelMap model) {
-		model.addAttribute("message", "Hello world!");
-		return "hello";
-	}
+//	@RequestMapping(method = RequestMethod.GET)
+//	public String printWelcome(ModelMap model) {
+//		model.addAttribute("message", "Hello world!");
+//		return "hello";
+//	}
 
 	@RequestMapping(value = "/about", method = RequestMethod.GET)
 	public String printAbout(ModelMap model) {
@@ -258,7 +253,7 @@ public class HelloController {
 	 * @return
 	 * @throws Exception
 	 */
-	@RequestMapping(value = "/main", method = RequestMethod.GET)
+	@RequestMapping(value = "/main",method = RequestMethod.GET)
 	public String getMainPage(ModelMap model,
 						  @RequestParam(value = "from",  defaultValue = "0") int from,
 						  @RequestParam(value = "size",  defaultValue = "15") int size,
