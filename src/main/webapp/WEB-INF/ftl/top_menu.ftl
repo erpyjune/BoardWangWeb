@@ -22,6 +22,7 @@
                         <li><a href="./list?cp=개드립">개드립</a></li>
                         <li><a href="./list?cp=개드립닷컴">개드립닷컴</a></li>
                         <li><a href="./list?cp=웃긴대학">웃긴대학</a></li>
+                        <li><a href="./list?cp=루리웹">루리웹</a></li>
                         <li><a href="./list?cp=짱공유">짱공유</a></li>
                         <li><a href="./list?cp=풀빵닷컴">풀빵닷컴</a></li>
                         <li><a href="./list?cp=헝그리앱">헝그리앱</a></li>
