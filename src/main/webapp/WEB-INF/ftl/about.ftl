@@ -16,7 +16,7 @@
     </div>
     <p>각종 문의는 <span class="glyphicon glyphicon-envelope"></span>&nbsp;<em>summarynode@gmail.com</em> 로 연락 주시기 바랍니다.</p>
     <p>분석되는 게시판서비스들은 앞으로도 계속 추가됩니다.</p>
-    <p><em>2016.02.10</em></p>
+    <p><em>2016. 2</em></p>
 </div>
 
 </body>
