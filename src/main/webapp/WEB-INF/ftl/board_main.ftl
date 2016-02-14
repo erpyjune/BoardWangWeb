@@ -1,6 +1,10 @@
 <!DOCTYPE html>
 <html>
 
+<#----------------------------------------------- 변수 선언 --------------------------------------------->
+<#include "./global_data.ftl">
+
+<#----------------------------------------------- html head --------------------------------------------->
 <#include "./board_head.ftl">
 
 <body>
@@ -11,13 +15,24 @@
 
 <div class="container">
 
+<#----------------------------------------------- 게시판 소개 --------------------------------------------->
+    <div class="btn-group btn-group-justified">
+        <a href="./main?sort=reply" class="btn btn-default">댓글순</a>
+        <a href="./main?sort=suggest" class="btn btn-default">추천순</a>
+        <a href="./main?sort=view" class="btn btn-default">조회순</a>
+    </div>
+    <div><br></div>
+
 
 <#----------------------------------------------- 최신글 --------------------------------------------->
 <#if boradListA?size &gt; 0>
     <table class="table table-striped">
         <thead>
         <tr>
-            <button type="button" class="btn btn-primary">최신글</button>
+            <#--<button type="button" class="btn btn-default">최신글 순서</button>-->
+            <#--<div class="well well-sm">최신글 순서</div>-->
+                <span class="label label-primary">최신글 순서</span>
+            <#--<a href="./list?sort=${sort}" class="btn btn-default">최신순서 더보기</a>-->
         <#--<th>이미지</th>-->
         <#--<th>사이트</th>-->
         <#--<th>제목</th>-->
@@ -52,7 +67,7 @@
         <#if from &gt; 0>
             <li><a href="./list?from=0&size=${size}&cp=${cp}&date_opt=${date_opt}&sort=${sort}">앞으로</a></li>
         </#if>
-        <li><a href="./list?from=0&size=${size}&cp=${cp}&date_opt=${date_opt}&sort=${sort}">더보기</a></li>
+        <li><a href="./list?from=0&size=${size}&cp=${cp}&date_opt=${date_opt}">더보기</a></li>
 
     </ul>
 </#if> <!-- boradListA -->
@@ -63,7 +78,9 @@
     <table class="table table-striped">
         <thead>
         <tr>
-            <button type="button" class="btn btn-primary">최근 30분 인기글</button>
+            <span class="label label-primary">최근 30분 동안 [${sortFieldName}]</span>
+            <#--<button type="button" class="btn btn-default">최근 30분 동안 [${sortFieldName}]</button>-->
+            <#--<a href="./list?from=0&size=${size}&cp=${cp}&date_opt=30min&sort=${sort}" class="btn btn-default">최근 30분 동안 [${sortFieldName}] 더보기</a>-->
             <#--<th>최근 30분 최신정보</th>-->
             <#--<th>제목</th>-->
             <#--<th>제목</th>-->
@@ -98,8 +115,7 @@
         <#if from &gt; 0>
             <li><a href="./list?from=0&size=${size}&cp=${cp}&date_opt=${date_opt}&sort=${sort}">앞으로</a></li>
         </#if>
-        <li><a href="./list?from=0&size=${size}&cp=${cp}&date_opt=30min&sort=reply">더보기</a></li>
-
+        <li><a href="./list?from=0&size=${size}&cp=${cp}&date_opt=30min&sort=${sort}">더보기</a></li>
     </ul>
 </#if> <!-- boradListB -->
 
@@ -110,7 +126,9 @@
         <table class="table table-striped">
             <thead>
             <tr>
-                <button type="button" class="btn btn-primary">최근 1시간 인기글</button>
+                <#--<button type="button" class="btn btn-default">최근 1시간 동안 [${sortFieldName}]</button>-->
+                <span class="label label-primary">최근 1시간 동안 [${sortFieldName}]</span>
+                <#--<a href="./list?from=0&size=${size}&cp=${cp}&date_opt=1hour&sort=${sort}" class="btn btn-default">최근 1시간 동안 [${sortFieldName}] 더보기</a>-->
             <#--<th>이미지</th>-->
             <#--<th>사이트</th>-->
             <#--<th>제목</th>-->
@@ -145,8 +163,7 @@
             <#if from &gt; 0>
                 <li><a href="./list?from=0&size=${size}&cp=${cp}&date_opt=${date_opt}&sort=${sort}">앞으로</a></li>
             </#if>
-            <li><a href="./list?from=0&size=${size}&cp=${cp}&date_opt=1hour&sort=reply">더보기</a></li>
-
+            <li><a href="./list?from=0&size=${size}&cp=${cp}&date_opt=1hour&sort=${sort}">더보기</a></li>
         </ul>
 </#if> <!-- boradListC -->
 
@@ -156,7 +173,9 @@
     <table class="table table-striped">
         <thead>
         <tr>
-            <button type="button" class="btn btn-primary">최근 3시간 인기글</button>
+            <#--<button type="button" class="btn btn-default">최근 3시간 동안 [${sortFieldName}]</button>-->
+            <span class="label label-primary">최근 3시간 동안 [${sortFieldName}]</span>
+            <#--<a href="./list?from=0&size=${size}&cp=${cp}&date_opt=3hour&sort=${sort}" class="btn btn-default">최근 3시간 동안 [${sortFieldName}] 더보기</a>-->
         <#--<th>이미지</th>-->
         <#--<th>사이트</th>-->
         <#--<th>제목</th>-->
@@ -191,8 +210,7 @@
         <#if from &gt; 0>
             <li><a href="./list?from=0&size=${size}&cp=${cp}&date_opt=${date_opt}&sort=${sort}">앞으로</a></li>
         </#if>
-        <li><a href="./list?from=0&size=${size}&cp=${cp}&date_opt=3hour&sort=reply">더보기</a></li>
-
+        <li><a href="./list?from=0&size=${size}&cp=${cp}&date_opt=3hour&sort=${sort}">더보기</a></li>
     </ul>
 </#if> <!-- boradListD -->
 
@@ -202,7 +220,9 @@
     <table class="table table-striped">
         <thead>
         <tr>
-            <button type="button" class="btn btn-primary">최근 6시간 인기글</button>
+            <#--<button type="button" class="btn btn-default">최근 6시간 동안 [${sortFieldName}]</button>-->
+            <span class="label label-primary">최근 6시간 동안 [${sortFieldName}]</span>
+            <#--<a href="./list?from=0&size=${size}&cp=${cp}&date_opt=6hour&sort=${sort}" class="btn btn-default">최근 6시간 동안 [${sortFieldName}] 더보기</a>-->
         <#--<th>이미지</th>-->
         <#--<th>사이트</th>-->
         <#--<th>제목</th>-->
@@ -233,13 +253,13 @@
         </tbody>
     </table>
 
-    <ul class="pager">
-        <#if from &gt; 0>
-            <li><a href="./list?from=0&size=${size}&cp=${cp}&date_opt=${date_opt}&sort=${sort}">앞으로</a></li>
-        </#if>
-        <li><a href="./list?from=0&size=${size}&cp=${cp}&date_opt=6hour&sort=reply">더보기</a></li>
+    <#--<ul class="pager">-->
+        <#--<#if from &gt; 0>-->
+            <#--<li><a href="./list?from=0&size=${size}&cp=${cp}&date_opt=${date_opt}&sort=${sort}">앞으로</a></li>-->
+        <#--</#if>-->
+        <#--<li><a href="./list?from=0&size=${size}&cp=${cp}&date_opt=6hour&sort=${sort}">더보기</a></li>-->
 
-    </ul>
+    <#--</ul>-->
 </#if> <!-- boradListE -->
 
 
@@ -248,7 +268,9 @@
     <table class="table table-striped">
         <thead>
         <tr>
-            <button type="button" class="btn btn-primary">최근 12시간 인기글</button>
+            <#--<button type="button" class="btn btn-default">최근 12시간 동안 [${sortFieldName}]</button>-->
+            <span class="label label-primary">최근 12시간 동안 [${sortFieldName}]</span>
+            <#--<a href="./list?from=0&size=${size}&cp=${cp}&date_opt=12hour&sort=${sort}" class="btn btn-default">최근 12시간 동안 [${sortFieldName}] 더보기</a>-->
         <#--<th>이미지</th>-->
         <#--<th>사이트</th>-->
         <#--<th>제목</th>-->
@@ -283,8 +305,7 @@
         <#if from &gt; 0>
             <li><a href="./list?from=0&size=${size}&cp=${cp}&date_opt=${date_opt}&sort=${sort}">앞으로</a></li>
         </#if>
-        <li><a href="./list?from=0&size=${size}&cp=${cp}&date_opt=12hour&sort=reply">더보기</a></li>
-
+        <li><a href="./list?from=0&size=${size}&cp=${cp}&date_opt=12hour&sort=${sort}">더보기</a></li>
     </ul>
 </#if> <!-- boradListF -->
 
@@ -294,7 +315,9 @@
     <table class="table table-striped">
         <thead>
         <tr>
-            <button type="button" class="btn btn-primary">최근 24시간 인기글</button>
+            <#--<button type="button" class="btn btn-default">최근 24시간 동안 [${sortFieldName}]</button>-->
+            <span class="label label-primary">최근 24시간 동안 [${sortFieldName}]</span>
+            <#--<a href="./list?from=0&size=${size}&cp=${cp}&date_opt=24hour&sort=${sort}" class="btn btn-default">최근 24시간 동안 [${sortFieldName}] 더보기</a>-->
         <#--<th>이미지</th>-->
         <#--<th>사이트</th>-->
         <#--<th>제목</th>-->
@@ -329,8 +352,7 @@
         <#if from &gt; 0>
             <li><a href="./list?from=0&size=${size}&cp=${cp}&date_opt=${date_opt}&sort=${sort}">앞으로</a></li>
         </#if>
-        <li><a href="./list?from=0&size=${size}&cp=${cp}&date_opt=24hour&sort=reply">더보기</a></li>
-
+        <li><a href="./list?from=0&size=${size}&cp=${cp}&date_opt=24hour&sort=${sort}">더보기</a></li>
     </ul>
 </#if> <!-- boradListG -->
 

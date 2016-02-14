@@ -202,7 +202,6 @@ public class HelloController {
 		 */
 		String decodeCpName = URLDecoder.decode(cpName, "utf-8");
 
-
 		/**
 		 * select SQL
 		 */
@@ -283,7 +282,13 @@ public class HelloController {
 		 * 최신 reply 30분
 		 */
 		dateMap = getDateTimeOption("30min");
-		tempList = boardMapper.selectDateBetweenReplyCountBoard(dateMap.get("start"), dateMap.get("end"), from, 4);
+		if ("suggest".equals(sortField)) {
+			tempList = boardMapper.selectDateBetweenSuggestCountBoard(dateMap.get("start"), dateMap.get("end"), from, 4);
+		} else if ("view".equals(sortField)) {
+			tempList = boardMapper.selectDateBetweenViewCountBoard(dateMap.get("start"), dateMap.get("end"), from, 4);
+		} else { // reply
+			tempList = boardMapper.selectDateBetweenReplyCountBoard(dateMap.get("start"), dateMap.get("end"), from, 4);
+		}
 		boradListB = makeBoardIterator(tempList.iterator());
 		logger.info(String.format(" 최신 1시간 start[%s], end[%s]", dateMap.get("start"), dateMap.get("end")));
 
@@ -291,7 +296,13 @@ public class HelloController {
 		 * 최신 reply 1시간
 		 */
 		dateMap = getDateTimeOption("1hour");
-		tempList = boardMapper.selectDateBetweenReplyCountBoard(dateMap.get("start"), dateMap.get("end"), from, 4);
+		if ("suggest".equals(sortField)) {
+			tempList = boardMapper.selectDateBetweenSuggestCountBoard(dateMap.get("start"), dateMap.get("end"), from, 4);
+		} else if ("view".equals(sortField)) {
+			tempList = boardMapper.selectDateBetweenViewCountBoard(dateMap.get("start"), dateMap.get("end"), from, 4);
+		} else { // reply
+			tempList = boardMapper.selectDateBetweenReplyCountBoard(dateMap.get("start"), dateMap.get("end"), from, 4);
+		}
 		boradListC = makeBoardIterator(tempList.iterator());
 		logger.info(String.format(" 최신 1시간 start[%s], end[%s]", dateMap.get("start"), dateMap.get("end")));
 
@@ -299,7 +310,13 @@ public class HelloController {
 		 * 최신 reply 3시간
 		 */
 		dateMap = getDateTimeOption("3hour");
-		tempList = boardMapper.selectDateBetweenReplyCountBoard(dateMap.get("start"), dateMap.get("end"), from, 4);
+		if ("suggest".equals(sortField)) {
+			tempList = boardMapper.selectDateBetweenSuggestCountBoard(dateMap.get("start"), dateMap.get("end"), from, 4);
+		} else if ("view".equals(sortField)) {
+			tempList = boardMapper.selectDateBetweenViewCountBoard(dateMap.get("start"), dateMap.get("end"), from, 4);
+		} else { // reply
+			tempList = boardMapper.selectDateBetweenReplyCountBoard(dateMap.get("start"), dateMap.get("end"), from, 4);
+		}
 		boradListD = makeBoardIterator(tempList.iterator());
 		logger.info(String.format(" 최신 3시간 start[%s], end[%s]", dateMap.get("start"), dateMap.get("end")));
 
@@ -307,7 +324,13 @@ public class HelloController {
 		 * 최신 reply 6시간
 		 */
 		dateMap = getDateTimeOption("6hour");
-		tempList = boardMapper.selectDateBetweenReplyCountBoard(dateMap.get("start"), dateMap.get("end"), from, 4);
+		if ("suggest".equals(sortField)) {
+			tempList = boardMapper.selectDateBetweenSuggestCountBoard(dateMap.get("start"), dateMap.get("end"), from, 4);
+		} else if ("view".equals(sortField)) {
+			tempList = boardMapper.selectDateBetweenViewCountBoard(dateMap.get("start"), dateMap.get("end"), from, 4);
+		} else { // reply
+			tempList = boardMapper.selectDateBetweenReplyCountBoard(dateMap.get("start"), dateMap.get("end"), from, 4);
+		}
 		boradListE = makeBoardIterator(tempList.iterator());
 		logger.info(String.format(" 최신 6시간 start[%s], end[%s]", dateMap.get("start"), dateMap.get("end")));
 
@@ -315,7 +338,13 @@ public class HelloController {
 		 * 최신 reply 12시간
 		 */
 		dateMap = getDateTimeOption("12hour");
-		tempList = boardMapper.selectDateBetweenReplyCountBoard(dateMap.get("start"), dateMap.get("end"), from, 4);
+		if ("suggest".equals(sortField)) {
+			tempList = boardMapper.selectDateBetweenSuggestCountBoard(dateMap.get("start"), dateMap.get("end"), from, 4);
+		} else if ("view".equals(sortField)) {
+			tempList = boardMapper.selectDateBetweenViewCountBoard(dateMap.get("start"), dateMap.get("end"), from, 4);
+		} else { // reply
+			tempList = boardMapper.selectDateBetweenReplyCountBoard(dateMap.get("start"), dateMap.get("end"), from, 4);
+		}
 		boradListF = makeBoardIterator(tempList.iterator());
 		logger.info(String.format(" 최신 12시간 start[%s], end[%s]", dateMap.get("start"), dateMap.get("end")));
 
@@ -323,7 +352,13 @@ public class HelloController {
 		 * 최신 reply 24시간
 		 */
 		dateMap = getDateTimeOption("24hour");
-		tempList = boardMapper.selectDateBetweenReplyCountBoard(dateMap.get("start"), dateMap.get("end"), from, 4);
+		if ("suggest".equals(sortField)) {
+			tempList = boardMapper.selectDateBetweenSuggestCountBoard(dateMap.get("start"), dateMap.get("end"), from, 4);
+		} else if ("view".equals(sortField)) {
+			tempList = boardMapper.selectDateBetweenViewCountBoard(dateMap.get("start"), dateMap.get("end"), from, 4);
+		} else { // reply
+			tempList = boardMapper.selectDateBetweenReplyCountBoard(dateMap.get("start"), dateMap.get("end"), from, 4);
+		}
 		boradListG = makeBoardIterator(tempList.iterator());
 		logger.info(String.format(" 최신 24시간 start[%s], end[%s]", dateMap.get("start"), dateMap.get("end")));
 
