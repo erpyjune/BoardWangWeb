@@ -19,15 +19,16 @@
                     <ul class="dropdown-menu" role="menu">
                         <li><a href="./list?cp=클리앙">클리앙</a></li>
                         <li><a href="./list?cp=보배드림">보배드림</a></li>
+                        <li><a href="./list?cp=오늘의유머">오늘의유머</a></li>
                         <li><a href="./list?cp=개드립">개드립</a></li>
                         <li><a href="./list?cp=개드립닷컴">개드립닷컴</a></li>
                         <li><a href="./list?cp=웃긴대학">웃긴대학</a></li>
                         <li><a href="./list?cp=루리웹">루리웹</a></li>
+                        <li><a href="./list?cp=뽐뿌">뽐뿌</a></li>
                         <li><a href="./list?cp=짱공유">짱공유</a></li>
                         <li><a href="./list?cp=풀빵닷컴">풀빵닷컴</a></li>
                         <li><a href="./list?cp=헝그리앱">헝그리앱</a></li>
                         <li><a href="./list?cp=다음아고라">다음아고라</a></li>
-                        <li><a href="./list?cp=오늘의유머">오늘의유머</a></li>
                         <li><a href="./list?cp=앱짱닷컴">앱짱닷컴</a></li>
                     </ul>
                 </li>
