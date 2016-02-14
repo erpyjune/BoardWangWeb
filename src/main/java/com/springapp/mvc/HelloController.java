@@ -119,9 +119,12 @@ public class HelloController {
 			} else if ("suggest".equals(sortField) && dateOpt.length()>0){
 				boardList = boardMapper.selectDateBetweenSuggestCountBoard(startDateTime, endDateTime, from, size);
 				logger.info(" sort : suggest");
+			} else if ("recency".equals(sortField) && dateOpt.length()>0) {
+				boardList = boardMapper.selectBoardFromTo(from, size);
+				logger.info(" sort : recency");
 			} else {
 				boardList = boardMapper.selectBoardFromTo(from, size);
-				logger.info(" sort : not");
+				logger.info(" sort : recency");
 			}
 		} else {
 			boardList = boardMapper.selectCpNameBoardFromTo(cpName, from, size);
@@ -270,6 +273,14 @@ public class HelloController {
 		List<Board> boradListE=null; // 6시간
 		List<Board> boradListF=null; // 12시간
 		List<Board> boradListG=null; // 24시간
+
+
+		/**
+		 * if sort is null --> reply
+		 */
+		if (sortField.trim().length()==0) {
+			sortField = "reply";
+		}
 
 
 		/**

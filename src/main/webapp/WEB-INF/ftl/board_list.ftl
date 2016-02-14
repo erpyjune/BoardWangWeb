@@ -20,6 +20,7 @@
     <table class="table table-striped">
         <thead>
         <tr>
+            <span class="label label-primary">${dateOptName} [${sortFieldName}]</span>
             <#--<button type="button" class="btn btn-primary">글 리스트</button>-->
             <#--<th>최근 30분 최신정보</th>-->
             <#--<th>제목</th>-->

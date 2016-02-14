@@ -17,9 +17,9 @@
 
 <#----------------------------------------------- 게시판 소개 --------------------------------------------->
     <div class="btn-group btn-group-justified">
-        <a href="./main?sort=reply" class="btn btn-default">댓글순</a>
-        <a href="./main?sort=suggest" class="btn btn-default">추천순</a>
-        <a href="./main?sort=view" class="btn btn-default">조회순</a>
+        <a href="./main?sort=reply" class="btn btn-default">댓글순 보기</a>
+        <a href="./main?sort=suggest" class="btn btn-default">추천순 보기</a>
+        <a href="./main?sort=view" class="btn btn-default">조회순 보기</a>
     </div>
     <div><br></div>
 
@@ -67,7 +67,7 @@
         <#if from &gt; 0>
             <li><a href="./list?from=0&size=${size}&cp=${cp}&date_opt=${date_opt}&sort=${sort}">앞으로</a></li>
         </#if>
-        <li><a href="./list?from=0&size=${size}&cp=${cp}&date_opt=${date_opt}">더보기</a></li>
+        <li><a href="./list?from=0&size=${size}&cp=${cp}&date_opt=&sort=recency">더보기</a></li>
 
     </ul>
 </#if> <!-- boradListA -->
