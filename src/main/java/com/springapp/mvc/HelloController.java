@@ -119,6 +119,9 @@ public class HelloController {
 			} else if ("suggest".equals(sortField) && dateOpt.length()>0){
 				boardList = boardMapper.selectDateBetweenSuggestCountBoard(startDateTime, endDateTime, from, size);
 				logger.info(" sort : suggest");
+			} else if ("interest".equals(sortField) && dateOpt.length()>0){
+				boardList = boardMapper.selectDateBetweenInterestBoard(startDateTime, endDateTime, from, size);
+				logger.info(" sort : suggest");
 			} else if ("recency".equals(sortField) && dateOpt.length()>0) {
 				boardList = boardMapper.selectBoardFromTo(from, size);
 				logger.info(" sort : recency");
@@ -282,7 +285,6 @@ public class HelloController {
 			sortField = "reply";
 		}
 
-
 		/**
 		 * 최신글
 		 */
@@ -297,6 +299,8 @@ public class HelloController {
 			tempList = boardMapper.selectDateBetweenSuggestCountBoard(dateMap.get("start"), dateMap.get("end"), from, 4);
 		} else if ("view".equals(sortField)) {
 			tempList = boardMapper.selectDateBetweenViewCountBoard(dateMap.get("start"), dateMap.get("end"), from, 4);
+		} else if ("interest".equals(sortField)) {
+			tempList = boardMapper.selectDateBetweenInterestBoard(dateMap.get("start"), dateMap.get("end"), from, 4);
 		} else { // reply
 			tempList = boardMapper.selectDateBetweenReplyCountBoard(dateMap.get("start"), dateMap.get("end"), from, 4);
 		}
@@ -311,6 +315,8 @@ public class HelloController {
 			tempList = boardMapper.selectDateBetweenSuggestCountBoard(dateMap.get("start"), dateMap.get("end"), from, 4);
 		} else if ("view".equals(sortField)) {
 			tempList = boardMapper.selectDateBetweenViewCountBoard(dateMap.get("start"), dateMap.get("end"), from, 4);
+		} else if ("interest".equals(sortField)) {
+			tempList = boardMapper.selectDateBetweenInterestBoard(dateMap.get("start"), dateMap.get("end"), from, 4);
 		} else { // reply
 			tempList = boardMapper.selectDateBetweenReplyCountBoard(dateMap.get("start"), dateMap.get("end"), from, 4);
 		}
@@ -325,6 +331,8 @@ public class HelloController {
 			tempList = boardMapper.selectDateBetweenSuggestCountBoard(dateMap.get("start"), dateMap.get("end"), from, 4);
 		} else if ("view".equals(sortField)) {
 			tempList = boardMapper.selectDateBetweenViewCountBoard(dateMap.get("start"), dateMap.get("end"), from, 4);
+		} else if ("interest".equals(sortField)) {
+			tempList = boardMapper.selectDateBetweenInterestBoard(dateMap.get("start"), dateMap.get("end"), from, 4);
 		} else { // reply
 			tempList = boardMapper.selectDateBetweenReplyCountBoard(dateMap.get("start"), dateMap.get("end"), from, 4);
 		}
@@ -339,6 +347,8 @@ public class HelloController {
 			tempList = boardMapper.selectDateBetweenSuggestCountBoard(dateMap.get("start"), dateMap.get("end"), from, 4);
 		} else if ("view".equals(sortField)) {
 			tempList = boardMapper.selectDateBetweenViewCountBoard(dateMap.get("start"), dateMap.get("end"), from, 4);
+		} else if ("interest".equals(sortField)) {
+			tempList = boardMapper.selectDateBetweenInterestBoard(dateMap.get("start"), dateMap.get("end"), from, 4);
 		} else { // reply
 			tempList = boardMapper.selectDateBetweenReplyCountBoard(dateMap.get("start"), dateMap.get("end"), from, 4);
 		}
@@ -353,6 +363,8 @@ public class HelloController {
 			tempList = boardMapper.selectDateBetweenSuggestCountBoard(dateMap.get("start"), dateMap.get("end"), from, 4);
 		} else if ("view".equals(sortField)) {
 			tempList = boardMapper.selectDateBetweenViewCountBoard(dateMap.get("start"), dateMap.get("end"), from, 4);
+		} else if ("interest".equals(sortField)) {
+			tempList = boardMapper.selectDateBetweenInterestBoard(dateMap.get("start"), dateMap.get("end"), from, 4);
 		} else { // reply
 			tempList = boardMapper.selectDateBetweenReplyCountBoard(dateMap.get("start"), dateMap.get("end"), from, 4);
 		}
@@ -367,6 +379,8 @@ public class HelloController {
 			tempList = boardMapper.selectDateBetweenSuggestCountBoard(dateMap.get("start"), dateMap.get("end"), from, 4);
 		} else if ("view".equals(sortField)) {
 			tempList = boardMapper.selectDateBetweenViewCountBoard(dateMap.get("start"), dateMap.get("end"), from, 4);
+		} else if ("interest".equals(sortField)) {
+			tempList = boardMapper.selectDateBetweenInterestBoard(dateMap.get("start"), dateMap.get("end"), from, 4);
 		} else { // reply
 			tempList = boardMapper.selectDateBetweenReplyCountBoard(dateMap.get("start"), dateMap.get("end"), from, 4);
 		}

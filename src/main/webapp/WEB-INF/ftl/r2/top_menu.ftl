@@ -34,6 +34,18 @@
                 </li>
 
                 <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">인기순<span class="caret"></span></a>
+                    <ul class="dropdown-menu" role="menu">
+                        <li><a href="./list?date_opt=30min&sort=interest">최근30분</a></li>
+                        <li><a href="./list?date_opt=1hour&sort=interest">최근1시간</a></li>
+                        <li><a href="./list?date_opt=3hour&sort=interest">최근3시간</a></li>
+                        <li><a href="./list?date_opt=6hour&sort=interest">최근6시간</a></li>
+                        <li><a href="./list?date_opt=12hour&sort=interest">최근12시간</a></li>
+                        <li><a href="./list?date_opt=24hour&sort=interest">최근24시간</a></li>
+                    </ul>
+                </li>
+
+                <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">댓글순<span class="caret"></span></a>
                     <ul class="dropdown-menu" role="menu">
                         <li><a href="./list?date_opt=30min&sort=reply">최근30분</a></li>

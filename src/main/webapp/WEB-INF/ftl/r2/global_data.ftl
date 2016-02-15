@@ -18,8 +18,11 @@
 <#elseif sortField == "reply">
     <#assign sortFieldName = "댓글 많은 순서">
 <#elseif sortField == "recency">
-    <#assign sortFieldName = "">
+    <#assign sortFieldName = "최근 시간 순서">
+<#elseif sortField == "interest">
+    <#assign sortFieldName = "인기 많은 순서">
 </#if>
+
 
 
 <#assign dateOpt = "">

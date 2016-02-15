@@ -109,6 +109,34 @@ public interface BoardMapper {
     );
 
 
+    @Select("SELECT " + "((reply_count * 0.5) + (suggest_count * 0.3) + (view_count * 0.1)) as score, " +
+            " id, title, writer, url, thumb_url, image_url, cp_name, cp_name_display, date, view_count, suggest_count, reply_count" +
+            " FROM board" +
+            " WHERE date BETWEEN #{startDateTime} AND #{endDateTime} order by score desc limit #{from}, #{size}")
+    @Results(value = {
+            @Result(property = "id",           column = "id"),
+            @Result(property = "title",        column = "title"),
+            @Result(property = "writer",       column = "writer"),
+            @Result(property = "url",          column = "url"),
+            @Result(property = "thumbUrl",     column = "thumb_url"),
+            @Result(property = "imageUrl",     column = "image_url"),
+            @Result(property = "cpName",       column = "cp_name"),
+            @Result(property = "cpNameDisplay",column = "cp_name_display"),
+            @Result(property = "dateTime",     column = "date"),
+            @Result(property = "viewCount",    column = "view_count"),
+            @Result(property = "suggestCount", column = "suggest_count"),
+            @Result(property = "imageCount",   column = "image_count"),
+            @Result(property = "videoCount",   column = "video_count"),
+            @Result(property = "replyCount",   column = "reply_count")
+    })
+    List<Board> selectDateBetweenInterestBoard(
+            @Param("startDateTime") String startDateTime,
+            @Param("endDateTime") String endDateTime,
+            @Param("from") int from,
+            @Param("size") int size
+    );
+
+
     @Select("SELECT id, title, writer, url, thumb_url, image_url, cp_name, cp_name_display, date, view_count, suggest_count, reply_count " +
             "FROM board " +
             "WHERE cp_name_display = #{cp} order by date desc, ts desc limit #{from}, #{size}")
