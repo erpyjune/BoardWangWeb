@@ -31,10 +31,10 @@
 
 <#----------------------------------------------- 게시판 소개 --------------------------------------------->
     <div class="btn-group btn-group-justified">
-        <a href="./main?sort=reply" class="btn btn-default">댓글순 보기</a>
-        <a href="./main?sort=interest" class="btn btn-default">인기순 보기</a>
-        <a href="./main?sort=suggest" class="btn btn-default">추천순 보기</a>
-        <a href="./main?sort=view" class="btn btn-default">조회순 보기</a>
+        <a href="./main?sort=reply" class="btn btn-default">댓글순</a>
+        <a href="./main?sort=interest" class="btn btn-default">인기순</a>
+        <a href="./main?sort=suggest" class="btn btn-default">추천순</a>
+        <a href="./main?sort=view" class="btn btn-default">조회순</a>
     </div>
     <div><br></div>
 
