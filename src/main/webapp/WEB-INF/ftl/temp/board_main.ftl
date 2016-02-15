@@ -7,13 +7,25 @@
 <#----------------------------------------------- html head --------------------------------------------->
 <#include "./board_head.ftl">
 
-<body>
+<body data-feedly-mini="yes">
 
 <!-- nav -->
 <#include "./top_menu.ftl">
 
 
 <div class="container">
+
+    <!-- Heading Row -->
+    <div class="row">
+        <div class="col-md-8">
+            <img class="img-responsive img-rounded" src="http://placehold.it/900x350" alt="">
+        </div>
+        <!-- /.col-md-8 -->
+        <div class="col-md-4">
+            <h1>Business Name or Tagline</h1>
+            <p>This is a template that is great for small businesses. It doesn't have too much fancy flare to it, but it makes a great use of the standard Bootstrap core components. Feel free to use this template for any project you want!</p>
+        </div>
+    </div>
 
 <#----------------------------------------------- 게시판 소개 --------------------------------------------->
     <div class="btn-group btn-group-justified">

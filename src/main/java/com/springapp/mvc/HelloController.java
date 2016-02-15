@@ -37,7 +37,7 @@ public class HelloController {
 	@RequestMapping(value = "/about", method = RequestMethod.GET)
 	public String printAbout(ModelMap model) {
 		model.addAttribute("message", "키위토마토닷컴");
-		return "about";
+		return "r2/about";
 	}
 
 	/**
@@ -239,7 +239,7 @@ public class HelloController {
 		model.addAttribute("date_opt", dateOpt);
 		model.addAttribute("sort", sortField);
 
-		return "board_list";
+		return "r2/board_list";
 	}
 
 
@@ -409,7 +409,7 @@ public class HelloController {
 		model.addAttribute("date_opt", dateOpt);
 		model.addAttribute("sort", sortField);
 
-		return "board_main";
+		return "r2/board_main";
 	}
 
 
