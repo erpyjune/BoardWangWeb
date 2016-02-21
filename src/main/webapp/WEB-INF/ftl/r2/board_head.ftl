@@ -4,8 +4,8 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <meta property="og:title" content="키위토마토닷컴 | 게시판 메타 서비스" />
-    <meta property="og:description" content="게시판 메타 서비스 유머 게시판 이슈 게시판 사진 게시판" />
+    <meta property="og:title" content="오늘의 이슈 | 키위토마토닷컴" />
+    <meta property="og:description" content="게시판 모음. 유머 게시판. 이슈 게시판. 사진 게시판" />
     <meta property="og:site_name" content="키위토마토닷컴" />
     <meta property="og:image" content="" />
     <meta property="og:url" content="" />

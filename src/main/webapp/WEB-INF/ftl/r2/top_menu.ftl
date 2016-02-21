@@ -32,6 +32,7 @@
                         <li><a href="./list?cp=앱짱닷컴">앱짱닷컴</a></li>
                         <li><a href="./list?cp=팝코">팝코</a></li>
                         <li><a href="./list?cp=82쿡">82쿡</a></li>
+                        <li><a href="./list?cp=미즈넷">미즈넷</a></li>
                     </ul>
                 </li>
 
