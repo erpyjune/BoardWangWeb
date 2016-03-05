@@ -1,6 +1,8 @@
 package com.springapp.mvc;
 
 import com.erpyjune.StdUtils;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.springapp.mvc.data.Board;
 import com.springapp.mvc.mapper.BoardMapper;
 import org.slf4j.Logger;
@@ -11,6 +13,9 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import redis.clients.jedis.Jedis;
+import redis.clients.jedis.JedisPool;
+import redis.clients.jedis.JedisPoolConfig;
 
 import javax.servlet.ServletContext;
 import java.net.URLDecoder;
@@ -20,411 +25,261 @@ import java.util.*;
 @Controller
 @RequestMapping("/")
 public class HelloController {
-	private static final Logger logger = LoggerFactory.getLogger(HelloController.class);
+    private static final Logger logger = LoggerFactory.getLogger(HelloController.class);
 
-	@Autowired
-	BoardMapper boardMapper;
+    @Autowired
+    BoardMapper boardMapper;
 
-	private @Autowired
-	ServletContext servletContext;
+    private @Autowired
+    ServletContext servletContext;
 
-//	@RequestMapping(method = RequestMethod.GET)
-//	public String printWelcome(ModelMap model) {
-//		model.addAttribute("message", "Hello world!");
-//		return "hello";
-//	}
-
-	@RequestMapping(value = "/about", method = RequestMethod.GET)
-	public String printAbout(ModelMap model) {
-		model.addAttribute("message", "키위토마토닷컴");
-		return "r2/about";
-	}
-
-	/**
-	 *
-	 * @param opt
-	 * @return
-	 * @throws Exception
-	 */
-	private Map<String, String> getDateTimeOption(String opt) throws Exception {
-		StdUtils stdUtils = new StdUtils();
-		String currDateTime="";
-		String beforeDateTime="";
-		Map<String, String> map = new HashMap<String, String>();
-
-		if ("1hour".equals(opt)) {
-			currDateTime = stdUtils.getCurrDateTimeString().substring(0,12);
-			beforeDateTime = stdUtils.getHourBeforeAfterString(-1).substring(0,12);
-		} else if ("3hour".equals(opt)) {
-			currDateTime = stdUtils.getCurrDateTimeString().substring(0,12);
-			beforeDateTime = stdUtils.getHourBeforeAfterString(-3).substring(0,12);
-		} else if ("6hour".equals(opt)) {
-			currDateTime = stdUtils.getCurrDateTimeString().substring(0,12);
-			beforeDateTime = stdUtils.getHourBeforeAfterString(-6).substring(0,12);
-		} else if ("12hour".equals(opt)) {
-			currDateTime = stdUtils.getCurrDateTimeString().substring(0,12);
-			beforeDateTime = stdUtils.getHourBeforeAfterString(-12).substring(0,12);
-		} else if ("24hour".equals(opt)) {
-			currDateTime = stdUtils.getCurrDateTimeString().substring(0,12);
-			beforeDateTime = stdUtils.getHourBeforeAfterString(-24).substring(0,12);
-		} else if ("30min".equals(opt)) {
-			currDateTime = stdUtils.getCurrDateTimeString().substring(0,12);
-			beforeDateTime = stdUtils.getMinutesBeforeAfterString(-30).substring(0,12);
-		} else {
-			currDateTime = "";
-			beforeDateTime = "";
-		}
-
-		logger.info(" start date [" + beforeDateTime + "]");
-		logger.info(" end   date [" + currDateTime + "]");
-
-		map.put("start", beforeDateTime);
-		map.put("end", currDateTime);
-
-		return map;
-	}
-
-	/**
-	 *
-	 * @param cpName
-	 * @param dateOpt
-	 * @param sortField
-	 * @param from
-	 * @param size
-	 * @return
-	 * @throws Exception
-	 */
-	private List<Board> selectService(String cpName, String dateOpt, String sortField, int from, int size) throws Exception {
-		String startDateTime="", endDateTime="";
-		List<Board> boardList=null;
-		Map<String, String> dateMap=null;
-
-		if (dateOpt.trim().length()>0) {
-			dateMap = getDateTimeOption(dateOpt);
-			startDateTime = dateMap.get("start");
-			endDateTime = dateMap.get("end");
-
-			if (startDateTime.length()==0 || endDateTime.length()==0) {
-				dateOpt="";
-			}
-		}
-
-		if (cpName.length()==0) {
-			if ("reply".equals(sortField) && dateOpt.length()>0) {
-				boardList = boardMapper.selectDateBetweenReplyCountBoard(startDateTime, endDateTime, from, size);
-				logger.info(" sort : reply");
-			} else if ("view".equals(sortField) && dateOpt.length()>0){
-				boardList = boardMapper.selectDateBetweenViewCountBoard(startDateTime, endDateTime, from, size);
-				logger.info(" sort : view");
-			} else if ("suggest".equals(sortField) && dateOpt.length()>0){
-				boardList = boardMapper.selectDateBetweenSuggestCountBoard(startDateTime, endDateTime, from, size);
-				logger.info(" sort : suggest");
-			} else if ("interest".equals(sortField) && dateOpt.length()>0){
-				boardList = boardMapper.selectDateBetweenInterestBoard(startDateTime, endDateTime, from, size);
-				logger.info(" sort : suggest");
-			} else if ("recency".equals(sortField) && dateOpt.length()>0) {
-				boardList = boardMapper.selectBoardFromTo(from, size);
-				logger.info(" sort : recency");
-			} else {
-				boardList = boardMapper.selectBoardFromTo(from, size);
-				logger.info(" sort : recency");
-			}
-		} else {
-			boardList = boardMapper.selectCpNameBoardFromTo(cpName, from, size);
-			logger.info(" cp [" + cpName + "]");
-		}
-
-		return boardList;
-	}
-
-	/**
-	 *
-	 * @param iter
-	 * @return
-	 * @throws Exception
-	 */
-	private List<Board> makeBoardIterator(Iterator iter) throws Exception {
-		String tempStr;
-		List<Board> boardList = new ArrayList<>();
-
-		while (iter.hasNext()) {
-			Board board = new Board();
-			Board boardTemp = (Board)iter.next();
-
-			board.setTitle(boardTemp.getTitle());
-			board.setWriter(boardTemp.getWriter());
-			board.setUrl(boardTemp.getUrl());
-			board.setCpName(boardTemp.getCpName());
-			board.setCpNameDisplay(boardTemp.getCpNameDisplay());
-			board.setImageUrl(boardTemp.getImageUrl());
-			board.setImageCount(boardTemp.getImageCount());
-			board.setVideoCount(boardTemp.getVideoCount());
-			board.setThumbUrl(boardTemp.getThumbUrl());
-			if (boardTemp.getDateTime().length()>=12) {
-				tempStr = String.format("%s-%s-%s %s:%s",
-						boardTemp.getDateTime().substring(0, 4),
-						boardTemp.getDateTime().substring(4, 6),
-						boardTemp.getDateTime().substring(6, 8),
-						boardTemp.getDateTime().substring(8, 10),
-						boardTemp.getDateTime().substring(10, 12));
-				board.setDateTime(tempStr);
-			}
-			board.setViewCount(boardTemp.getViewCount());
-			board.setSuggestCount(boardTemp.getSuggestCount());
-			board.setReplyCount(boardTemp.getReplyCount());
-
-			boardList.add(board);
-
-			logger.info(board.getTitle());
-			logger.info(board.getUrl());
-			logger.info("==========================================");
-		}
-
-		return boardList;
-	}
-
-	/**
-	 *
-	 * @param model
-	 * @param from
-	 * @param size
-	 * @param cpName
-	 * @param dateOpt
-	 * @return
-	 * @throws Exception
-	 */
-	@RequestMapping(value = "/list", method = RequestMethod.GET)
-	public String getList(
-			              ModelMap model,
-						  @RequestParam(value = "from",  defaultValue = "0") int from,
-						  @RequestParam(value = "size",  defaultValue = "15") int size,
-						  @RequestParam(value = "cp",    defaultValue = "") String cpName,
-						  @RequestParam(value = "date_opt",    defaultValue = "") String dateOpt,
-						  @RequestParam(value = "sort",    defaultValue = "") String sortField
-	) throws Exception {
-
-		/**
-		 * decode cp name
-		 */
-		String decodeCpName = URLDecoder.decode(cpName, "utf-8");
-
-		/**
-		 * select SQL
-		 */
-		List<Board> recencyBoardList = selectService(decodeCpName,dateOpt,sortField,from, size);
-		List<Board> boardList = makeBoardIterator(recencyBoardList.iterator());
+    @RequestMapping(value = "/about", method = RequestMethod.GET)
+    public String printAbout(ModelMap model) {
+        model.addAttribute("message", "키위토마토닷컴");
+        return "r2/about";
+    }
 
 
-		/**
-		 * page 계산
-		 */
-		int prevFrom=0;
-		if (from > 0) {
-			prevFrom = from - size;
-			if (prevFrom < 0) prevFrom = 0;
-		} else {
-			prevFrom = 0;
-		}
+    //////////////////////////////////////////////////////////////////////////////////
+    @RequestMapping(value = "/list", method = RequestMethod.GET)
+    public String getList(
+            ModelMap model,
+            @RequestParam(value = "from",  defaultValue = "0") int from,
+            @RequestParam(value = "size",  defaultValue = "15") int size,
+            @RequestParam(value = "cp",    defaultValue = "") String cpName,
+            @RequestParam(value = "date_opt",    defaultValue = "") String dateOpt,
+            @RequestParam(value = "sort",    defaultValue = "") String sortField
+    ) throws Exception {
 
-		int nextFrom=0;
-		nextFrom = from + size;
+        /**
+         * decode cp name
+         */
+        String decodeCpName = URLDecoder.decode(cpName, "utf-8");
 
-		/**
-		 * model data
-		 */
-		model.addAttribute("boardList", boardList);
-		model.addAttribute("title", "BoardWang !!!");
-		model.addAttribute("prevFrom", prevFrom);
-		model.addAttribute("nextFrom", nextFrom);
-		model.addAttribute("size", size);
-		model.addAttribute("from", from);
-		model.addAttribute("cp", decodeCpName);
-		model.addAttribute("date_opt", dateOpt);
-		model.addAttribute("sort", sortField);
+        /**
+         * make key
+         */
+        String key = "list_" + decodeCpName + dateOpt + sortField + from + size;
 
-		return "r2/board_list";
-	}
+        // get data from redis
+        Service service = new Service();
+        ObjectMapper jsonMapper = new ObjectMapper();
+        List<Board> boardList=null;
+        String datas;
+        Jedis jedis = null;
+        JedisPool pool = new JedisPool(new JedisPoolConfig(), "www.kiwitomato.com");
+        try {
+            jedis = pool.getResource();
+            datas = jedis.get(key);
+            if (datas==null) {
+                List<Board> recencyBoardList = service.selectService(decodeCpName, dateOpt, sortField, from, size, boardMapper);
+                boardList = service.makeBoardIterator(recencyBoardList.iterator());
+                String jsonResults = jsonMapper.writeValueAsString(boardList);
+                jedis.set(key, jsonResults);
+                jedis.expire(key, 60 * 3);
+                System.out.println(">>> make json");
+            }
+            else {
+                boardList = service.makeBoardFromJson(datas);
+                System.out.println(">>> get json");
+            }
+        } catch (Exception e) {
+            System.out.println(Arrays.toString(e.getStackTrace()));
+        } finally {
+            if (jedis!=null) jedis.close();
+            pool.destroy();
+        }
 
+        /**
+         * page 계산
+         */
+        int prevFrom=0;
+        if (from > 0) {
+            prevFrom = from - size;
+            if (prevFrom < 0) prevFrom = 0;
+        } else {
+            prevFrom = 0;
+        }
 
-	/**
-	 *
-	 * @param model
-	 * @param from
-	 * @param size
-	 * @param cpName
-	 * @param dateOpt
-	 * @param sortField
-	 * @param how
-	 * @return
-	 * @throws Exception
-	 */
-	@RequestMapping(value = "/main",method = RequestMethod.GET)
-	public String getMainPage(ModelMap model,
-						  @RequestParam(value = "from",  defaultValue = "0") int from,
-						  @RequestParam(value = "size",  defaultValue = "15") int size,
-						  @RequestParam(value = "cp",    defaultValue = "") String cpName,
-						  @RequestParam(value = "date_opt",    defaultValue = "") String dateOpt,
-						  @RequestParam(value = "sort",    defaultValue = "") String sortField,
-						  @RequestParam(value = "how",    defaultValue = "") String how) throws Exception {
+        int nextFrom=0;
+        nextFrom = from + size;
 
-		Map<String, String> dateMap=null;
-		List<Board> tempList=null;
-		List<Board> boradListA=null; // 최신글
-		List<Board> boradListB=null; // 30분
-		List<Board> boradListC=null; // 1시간
-		List<Board> boradListD=null; // 3시간
-		List<Board> boradListE=null; // 6시간
-		List<Board> boradListF=null; // 12시간
-		List<Board> boradListG=null; // 24시간
+        /**
+         * model data
+         */
+        model.addAttribute("boardList", boardList);
+        model.addAttribute("title", "BoardWang !!!");
+        model.addAttribute("prevFrom", prevFrom);
+        model.addAttribute("nextFrom", nextFrom);
+        model.addAttribute("size", size);
+        model.addAttribute("from", from);
+        model.addAttribute("cp", decodeCpName);
+        model.addAttribute("date_opt", dateOpt);
+        model.addAttribute("sort", sortField);
 
-
-		/**
-		 * if sort is null --> reply
-		 */
-		if (sortField.trim().length()==0) {
-			sortField = "reply";
-		}
-
-		/**
-		 * 최신글
-		 */
-		tempList = boardMapper.selectBoardFromTo(from, 4);
-		boradListA = makeBoardIterator(tempList.iterator());
-
-		/**
-		 * 최신 reply 30분
-		 */
-		dateMap = getDateTimeOption("30min");
-		if ("suggest".equals(sortField)) {
-			tempList = boardMapper.selectDateBetweenSuggestCountBoard(dateMap.get("start"), dateMap.get("end"), from, 4);
-		} else if ("view".equals(sortField)) {
-			tempList = boardMapper.selectDateBetweenViewCountBoard(dateMap.get("start"), dateMap.get("end"), from, 4);
-		} else if ("interest".equals(sortField)) {
-			tempList = boardMapper.selectDateBetweenInterestBoard(dateMap.get("start"), dateMap.get("end"), from, 4);
-		} else { // reply
-			tempList = boardMapper.selectDateBetweenReplyCountBoard(dateMap.get("start"), dateMap.get("end"), from, 4);
-		}
-		boradListB = makeBoardIterator(tempList.iterator());
-		logger.info(String.format(" 최신 1시간 start[%s], end[%s]", dateMap.get("start"), dateMap.get("end")));
-
-		/**
-		 * 최신 reply 1시간
-		 */
-		dateMap = getDateTimeOption("1hour");
-		if ("suggest".equals(sortField)) {
-			tempList = boardMapper.selectDateBetweenSuggestCountBoard(dateMap.get("start"), dateMap.get("end"), from, 4);
-		} else if ("view".equals(sortField)) {
-			tempList = boardMapper.selectDateBetweenViewCountBoard(dateMap.get("start"), dateMap.get("end"), from, 4);
-		} else if ("interest".equals(sortField)) {
-			tempList = boardMapper.selectDateBetweenInterestBoard(dateMap.get("start"), dateMap.get("end"), from, 4);
-		} else { // reply
-			tempList = boardMapper.selectDateBetweenReplyCountBoard(dateMap.get("start"), dateMap.get("end"), from, 4);
-		}
-		boradListC = makeBoardIterator(tempList.iterator());
-		logger.info(String.format(" 최신 1시간 start[%s], end[%s]", dateMap.get("start"), dateMap.get("end")));
-
-		/**
-		 * 최신 reply 3시간
-		 */
-		dateMap = getDateTimeOption("3hour");
-		if ("suggest".equals(sortField)) {
-			tempList = boardMapper.selectDateBetweenSuggestCountBoard(dateMap.get("start"), dateMap.get("end"), from, 4);
-		} else if ("view".equals(sortField)) {
-			tempList = boardMapper.selectDateBetweenViewCountBoard(dateMap.get("start"), dateMap.get("end"), from, 4);
-		} else if ("interest".equals(sortField)) {
-			tempList = boardMapper.selectDateBetweenInterestBoard(dateMap.get("start"), dateMap.get("end"), from, 4);
-		} else { // reply
-			tempList = boardMapper.selectDateBetweenReplyCountBoard(dateMap.get("start"), dateMap.get("end"), from, 4);
-		}
-		boradListD = makeBoardIterator(tempList.iterator());
-		logger.info(String.format(" 최신 3시간 start[%s], end[%s]", dateMap.get("start"), dateMap.get("end")));
-
-		/**
-		 * 최신 reply 6시간
-		 */
-		dateMap = getDateTimeOption("6hour");
-		if ("suggest".equals(sortField)) {
-			tempList = boardMapper.selectDateBetweenSuggestCountBoard(dateMap.get("start"), dateMap.get("end"), from, 4);
-		} else if ("view".equals(sortField)) {
-			tempList = boardMapper.selectDateBetweenViewCountBoard(dateMap.get("start"), dateMap.get("end"), from, 4);
-		} else if ("interest".equals(sortField)) {
-			tempList = boardMapper.selectDateBetweenInterestBoard(dateMap.get("start"), dateMap.get("end"), from, 4);
-		} else { // reply
-			tempList = boardMapper.selectDateBetweenReplyCountBoard(dateMap.get("start"), dateMap.get("end"), from, 4);
-		}
-		boradListE = makeBoardIterator(tempList.iterator());
-		logger.info(String.format(" 최신 6시간 start[%s], end[%s]", dateMap.get("start"), dateMap.get("end")));
-
-		/**
-		 * 최신 reply 12시간
-		 */
-		dateMap = getDateTimeOption("12hour");
-		if ("suggest".equals(sortField)) {
-			tempList = boardMapper.selectDateBetweenSuggestCountBoard(dateMap.get("start"), dateMap.get("end"), from, 4);
-		} else if ("view".equals(sortField)) {
-			tempList = boardMapper.selectDateBetweenViewCountBoard(dateMap.get("start"), dateMap.get("end"), from, 4);
-		} else if ("interest".equals(sortField)) {
-			tempList = boardMapper.selectDateBetweenInterestBoard(dateMap.get("start"), dateMap.get("end"), from, 4);
-		} else { // reply
-			tempList = boardMapper.selectDateBetweenReplyCountBoard(dateMap.get("start"), dateMap.get("end"), from, 4);
-		}
-		boradListF = makeBoardIterator(tempList.iterator());
-		logger.info(String.format(" 최신 12시간 start[%s], end[%s]", dateMap.get("start"), dateMap.get("end")));
-
-		/**
-		 * 최신 reply 24시간
-		 */
-		dateMap = getDateTimeOption("24hour");
-		if ("suggest".equals(sortField)) {
-			tempList = boardMapper.selectDateBetweenSuggestCountBoard(dateMap.get("start"), dateMap.get("end"), from, 4);
-		} else if ("view".equals(sortField)) {
-			tempList = boardMapper.selectDateBetweenViewCountBoard(dateMap.get("start"), dateMap.get("end"), from, 4);
-		} else if ("interest".equals(sortField)) {
-			tempList = boardMapper.selectDateBetweenInterestBoard(dateMap.get("start"), dateMap.get("end"), from, 4);
-		} else { // reply
-			tempList = boardMapper.selectDateBetweenReplyCountBoard(dateMap.get("start"), dateMap.get("end"), from, 4);
-		}
-		boradListG = makeBoardIterator(tempList.iterator());
-		logger.info(String.format(" 최신 24시간 start[%s], end[%s]", dateMap.get("start"), dateMap.get("end")));
+        return "r2/board_list";
+    }
 
 
-		/**
-		 * page 계산
-		 */
-		int prevFrom=0;
-		if (from > 0) {
-			prevFrom = from - size;
-			if (prevFrom < 0) prevFrom = 0;
-		} else {
-			prevFrom = 0;
-		}
 
-		int nextFrom=0;
-		nextFrom = from + size;
+    /////////////////////////////////////////////////////////////////////////////////////////////////////////
+    @RequestMapping(value = "/main",method = RequestMethod.GET)
+    public String getMainPage(ModelMap model,
+                              @RequestParam(value = "from",  defaultValue = "0") int from,
+                              @RequestParam(value = "size",  defaultValue = "15") int size,
+                              @RequestParam(value = "cp",    defaultValue = "") String cpName,
+                              @RequestParam(value = "date_opt",    defaultValue = "") String dateOpt,
+                              @RequestParam(value = "sort",    defaultValue = "") String sortField,
+                              @RequestParam(value = "how",    defaultValue = "") String how) throws Exception
+    {
 
-		/**
-		 * model data
-		 */
-		model.addAttribute("boradListA", boradListA);
-		model.addAttribute("boradListB", boradListB);
-		model.addAttribute("boradListC", boradListC);
-		model.addAttribute("boradListD", boradListD);
-		model.addAttribute("boradListE", boradListE);
-		model.addAttribute("boradListF", boradListF);
-		model.addAttribute("boradListG", boradListG);
+        Service service = new Service();
+        Map<String, List<Board>> resultMap=null;
 
-		model.addAttribute("title", "보드왕");
-		model.addAttribute("prevFrom", prevFrom);
-		model.addAttribute("nextFrom", nextFrom);
-		model.addAttribute("size", size);
-		model.addAttribute("from", from);
-		model.addAttribute("cp", cpName);
 
-		model.addAttribute("date_opt", dateOpt);
-		model.addAttribute("sort", sortField);
 
-		return "r2/board_main";
-	}
+        /**
+         * if sort is null --> reply
+         */
+        if (sortField.trim().length()==0) {
+            sortField = "reply";
+        }
+
+        /**
+         * get data
+         */
+        resultMap = service.getDataMain(from, sortField, boardMapper);
+
+
+        /**
+         * page 계산
+         */
+        int prevFrom=0;
+        if (from > 0) {
+            prevFrom = from - size;
+            if (prevFrom < 0) prevFrom = 0;
+        } else {
+            prevFrom = 0;
+        }
+
+        int nextFrom=0;
+        nextFrom = from + size;
+
+
+        /**
+         * model data
+         */
+        model.addAttribute("boradListA", resultMap.get("boradListA"));
+        model.addAttribute("boradListB", resultMap.get("boradListB"));
+        model.addAttribute("boradListC", resultMap.get("boradListC"));
+        model.addAttribute("boradListD", resultMap.get("boradListD"));
+        model.addAttribute("boradListE", resultMap.get("boradListE"));
+        model.addAttribute("boradListF", resultMap.get("boradListF"));
+        model.addAttribute("boradListG", resultMap.get("boradListG"));
+
+        model.addAttribute("title", "보드왕");
+        model.addAttribute("prevFrom", prevFrom);
+        model.addAttribute("nextFrom", nextFrom);
+        model.addAttribute("size", size);
+        model.addAttribute("from", from);
+        model.addAttribute("cp", cpName);
+
+        model.addAttribute("date_opt", dateOpt);
+        model.addAttribute("sort", sortField);
+
+        return "r2/board_main";
+    }
+
+
+
+    ////////////////////////////////////////////////////////////////////////////////////////
+    @RequestMapping(value = "/test", method = RequestMethod.GET)
+    public String getTest(
+            ModelMap model,
+            @RequestParam(value = "from",  defaultValue = "0") int from,
+            @RequestParam(value = "size",  defaultValue = "15") int size,
+            @RequestParam(value = "cp",    defaultValue = "") String cpName,
+            @RequestParam(value = "date_opt",    defaultValue = "") String dateOpt,
+            @RequestParam(value = "sort",    defaultValue = "") String sortField
+    ) throws Exception {
+
+        Service service = new Service();
+
+        /**
+         * json object mapper
+         */
+        ObjectMapper jsonMapper = new ObjectMapper();
+
+        /**
+         * decode cp name
+         */
+        String decodeCpName = URLDecoder.decode(cpName, "utf-8");
+
+        /**
+         * make key
+         */
+        String key = String.format("list_%s_%s_%s_%d_%s", decodeCpName, dateOpt, sortField, from, size);
+
+        //////////////////////////////////////////////////////////////////////
+        // get data from redis
+        List<Board> recencyBoardList;
+        List<Board> boardList=null;
+        String datas;
+        String jsonResults;
+        Jedis jedis = null;
+        JedisPool pool = new JedisPool(new JedisPoolConfig(), "www.kiwitomato.com");
+        try {
+            jedis = pool.getResource();
+            datas = jedis.get(key);
+            if (datas==null) {
+                recencyBoardList = service.selectService(decodeCpName, dateOpt, sortField,from,size,boardMapper);
+                boardList = service.makeBoardIterator(recencyBoardList.iterator());
+
+                jsonResults = jsonMapper.writeValueAsString(boardList);
+
+                jedis.set(key, jsonResults);
+                jedis.expire(key, 60 * 3);
+                logger.info("cache hit [" + key + "]");
+            }
+            else {
+                boardList = service.makeBoardFromJson(datas);
+            }
+        } catch (Exception e) {
+            System.out.println(Arrays.toString(e.getStackTrace()));
+        } finally {
+            if (jedis!=null) jedis.close();
+            pool.destroy();
+        }
+
+        /**
+         * page 계산
+         */
+        int prevFrom=0;
+        if (from > 0) {
+            prevFrom = from - size;
+            if (prevFrom < 0) prevFrom = 0;
+        } else {
+            prevFrom = 0;
+        }
+
+        int nextFrom=0;
+        nextFrom = from + size;
+
+        /**
+         * model data
+         */
+        model.addAttribute("boardList", boardList);
+        model.addAttribute("title", "BoardWang !!!");
+        model.addAttribute("prevFrom", prevFrom);
+        model.addAttribute("nextFrom", nextFrom);
+        model.addAttribute("size", size);
+        model.addAttribute("from", from);
+        model.addAttribute("cp", decodeCpName);
+        model.addAttribute("date_opt", dateOpt);
+        model.addAttribute("sort", sortField);
+
+        return "r2/board_list";
+    }
 
 
 //	@RequestMapping(value = "/get.json", method = RequestMethod.GET)
